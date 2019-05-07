@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Operations Version="1.0" xmlns="http://schemas.microsoft.com/sqlserver/dac/Serialization/2012/02">
+  <Operation Name="Rename Refactor" Key="e11a2cf6-9e43-4b3b-b4b4-e1e7776bfd26" ChangeDateTime="05/06/2019 17:36:01">
+    <Property Name="ElementName" Value="[dbo].[Error].[Priority]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Error]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="PriorityId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="55a70e2a-010d-4000-81d8-d592aad97150" ChangeDateTime="05/06/2019 17:36:23">
+    <Property Name="ElementName" Value="[dbo].[Error].[Criti]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Error]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ImpactId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="5a1678c4-ea98-4fb3-9e77-c0a2ddaa4801" ChangeDateTime="05/06/2019 17:37:48">
+    <Property Name="ElementName" Value="[dbo].[FK_Error_ToTable]" />
+    <Property Name="ElementType" Value="SqlForeignKeyConstraint" />
+    <Property Name="ParentElementName" Value="[dbo].[Error]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="[FK_Error_ToUser]" />
+  </Operation>
+</Operations>
