@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Row, Form, Input, Label, Col } from 'reactstrap';
+import { Row, Form, Input, Label, Col, Button } from 'reactstrap';
 import { actionCreators } from '../store/Classifiers';
 
 class ErrorListFilters extends Component {
@@ -42,11 +42,14 @@ class ErrorListFilters extends Component {
         <Row>
           <Col>
             <Label>С</Label>
-            <Input></Input>
+            <Input type="date"></Input>
           </Col>
           <Col>
             <Label>По</Label>
-            <Input></Input>
+            <Input type="date"></Input>
+          </Col>
+          <Col>
+            <Button style={{ marginTop: '32px'}}>Обновить</Button>
           </Col>
         </Row>
       </Form>

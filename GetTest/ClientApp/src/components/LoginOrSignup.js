@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import autoBind from 'react-autobind';
-import { Form, FormGroup, Input, Label, Row, Col, Button } from 'reactstrap';
+import { Form, FormGroup, Input, Label, Row, Button } from 'reactstrap';
 import { actionCreators } from '../store/WeatherForecasts';
 import './LoginOrSignup.css'
 
@@ -28,7 +28,7 @@ class LoginOrSignup extends Component {
           <Form id="loginForm" className="col-6" onSubmit={this.handleLogin}>
             <FormGroup className="clearfix">
               <Label className="float-left">Логин</Label>
-              <span id="signupLink" className="float-right">Нет учётной записи? <a href="#" onClick={this.showSignup}>Регистрация</a></span>
+              <span id="signupLink" className="float-right">Нет учётной записи? <a href="" onClick={this.showSignup}>Регистрация</a></span>
               <Input></Input>
             </FormGroup>
             <FormGroup>
@@ -44,7 +44,7 @@ class LoginOrSignup extends Component {
           <Form id="signupForm" className="col-6" onSubmit={this.handleSignup}>
             <FormGroup >
               <Label>Логин</Label>
-              <span id="loginLink" className="float-right">Есть учётная запись? <a href="#" onClick={this.showLogin}>Войти</a></span>
+              <span id="loginLink" className="float-right">Есть учётная запись? <a href="" onClick={this.showLogin}>Войти</a></span>
               <Input></Input>
             </FormGroup>
             <FormGroup >

@@ -3,6 +3,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Table } from 'reactstrap';
 import { actionCreators } from '../store/WeatherForecasts';
+import './ErrorList.css'
 import ErrorListFilters from './ErrorListFilters'
 
 class ErrorList extends Component {
@@ -10,7 +11,7 @@ class ErrorList extends Component {
     return (
       <div>
         <ErrorListFilters></ErrorListFilters>
-        <Table hover responsive>
+        <Table hover responsive id="errList">
           <thead>
             <tr>
               <th>Номер</th>
