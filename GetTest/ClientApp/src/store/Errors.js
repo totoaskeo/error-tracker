@@ -1,24 +1,45 @@
 const requestErrorListType = 'REQUEST_ERROR_LIST';
 const receiveErrorListType = 'RECEIVE_ERROR_LIST';
-const initialState = { forecasts: [], isLoading: false };
+const initialState = { list: [], isLoading: false, params: {} };
 
 export const actionCreators = {
-  requestErrorList: (statusId = null, impactId = null, priorityId = null, dateFrom = null, dateTo = null,) => async (dispatch, getState) => {
+  requestErrorList: (statusId = null, impactId = null, priorityId = null, dateFrom = null, dateTo = null) => async (dispatch, getState) => {
     const params = {
       statusId, impactId, priorityId, dateFrom, dateTo
     }
 
-    if (Object.keys(params).every(key => params[key] === getState().ErrorList.params[key])) {
+    if (Object.keys(params).every(key => params[key] === getState().errors.params[key])) {
       return; // duplicate request
     }
     
-    dispatch({ type: requestErrorListType, startDateIndex });
+    dispatch({ type: requestErrorListType });
 
-    const url = `api/Errors/startDateIndex=${startDateIndex}`;
-    const response = await fetch(url);
-    const forecasts = await response.json();
+    const errorList = [
+      {
+        id: 1,
+        dateCreated: '2019-02-04 14:00:23',
+        shortDesc: 'lorem ipsum dolor sit a met',
+        user: 'vasily@tester.org',
+        status: 'Новая',
+        priority: 'Срочная',
+        impact: 'Критическая'
+      },
+      {
+        id: 2,
+        dateCreated: '2019-02-04 14:00:23',
+        shortDesc: 'lorem ipsum bla blah',
+        user: 'yozef@tester.org',
+        status: 'Решённая',
+        priority: 'Несрочная',
+        impact: 'Авария'
+      }
+    ]
 
-    dispatch({ type: receiveErrorListType, startDateIndex, forecasts });
+    // const url = `api/Errors/startDateIndex=${startDateIndex}`;
+    // const response = await fetch(url);
+    // const forecasts = await response.json();
+
+    dispatch({ type: receiveErrorListType, errorList, params });
   }
 };
 
@@ -28,7 +49,7 @@ export const reducer = (state, action) => {
   if (action.type === requestErrorListType) {
     return {
       ...state,
-      startDateIndex: action.startDateIndex,
+      params: action.params,
       isLoading: true
     };
   }
@@ -36,8 +57,8 @@ export const reducer = (state, action) => {
   if (action.type === receiveErrorListType) {
     return {
       ...state,
-      startDateIndex: action.startDateIndex,
-      forecasts: action.forecasts,
+      list: action.errorList,
+      params: action.params,
       isLoading: false
     };
   }
