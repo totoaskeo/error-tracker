@@ -5,6 +5,7 @@ import Home from './components/Home';
 import Counter from './components/Counter';
 import FetchData from './components/FetchData';
 import LoginOrSignup from './components/LoginOrSignup';
+import ErrorList from './components/ErrorList';
 
 export default () => (
   <Layout>
@@ -12,5 +13,6 @@ export default () => (
     <Route path='/counter' component={Counter} />
     <Route path='/fetch-data/:startDateIndex?' component={FetchData} />
     <Route path='/login-or-signup' component={LoginOrSignup}/>
+    <Route path='/list' component={ErrorList}></Route>
   </Layout>
 );
