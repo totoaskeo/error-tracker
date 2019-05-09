@@ -7,15 +7,18 @@ using System.Threading.Tasks;
 namespace GetTest.Models {
     [Table("Error")]
     public class Error {
+        protected Error() { }
         public int Id { get; set; }
         public DateTime DateCreated { get; set; }
         public string ShortDesc { get; set; }
         public string Description { get; set; }
-        [ForeignKey("StatusId")]
-        public Status Status { get; set; }
+        public int StatusId { get; set; }
+        [ForeignKey("Id")]
+        public virtual Status Status { get; set; }
         [ForeignKey("PriorityId")]
-        public Priority Priority { get; set; }
+        public virtual Priority Priority { get; set; }
         [ForeignKey("ImpactId")]
-        public Impact Impact { get; set; }
+        public virtual Impact Impact { get; set; }
+        //[ForeignKey("UserId")]
     }
 }
