@@ -13,8 +13,15 @@ namespace GetTest.Models
             : base(options)
         {
         }
-        
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    => optionsBuilder
+        .UseLazyLoadingProxies();
+
+        #region ActualData
+        public DbSet<User> User { get; set; }
         public DbSet<Error> Error { get; set; }
+        public DbSet<ErrorHistory> ErrorHistory { get; set; }
+        #endregion
         #region Classifiers
         public DbSet<Action> Action { get; set; }
         public DbSet<Impact> Impact { get; set; }

@@ -12,13 +12,13 @@ namespace GetTest.Models {
         public DateTime DateCreated { get; set; }
         public string ShortDesc { get; set; }
         public string Description { get; set; }
-        public int StatusId { get; set; }
         [ForeignKey("Id")]
         public virtual Status Status { get; set; }
         [ForeignKey("PriorityId")]
         public virtual Priority Priority { get; set; }
         [ForeignKey("ImpactId")]
         public virtual Impact Impact { get; set; }
-        //[ForeignKey("UserId")]
+        [ForeignKey("UserId")]
+        public virtual User User { get; set; }
     }
 }
