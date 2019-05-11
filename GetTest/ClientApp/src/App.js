@@ -11,6 +11,7 @@ export default () => (
     <Route exact path='/' component={Home} />
     <Route path='/login-or-signup' component={LoginOrSignup}/>
     <Route path='/list' component={ErrorList}></Route>
-    <Route path='/error-card/:id' component={ErrorCard}></Route>
+    <Route path='/error-card/:id?' component={ErrorCard}></Route>
+    {/* <Route path='/users' component={UserList}></Route> */}
   </Layout>
 );

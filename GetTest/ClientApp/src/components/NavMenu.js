@@ -27,9 +27,14 @@ export default class NavMenu extends React.Component {
             <Collapse className="d-sm-inline-flex flex-sm-row-reverse" isOpen={this.state.isOpen} navbar>
               <ul className="navbar-nav flex-grow">
                 <NavItem>
-                  <NavLink tag={Link} className="text-dark" to="/">Home</NavLink>
+                  <NavLink tag={Link} className="text-dark" to="/">На главную</NavLink>
                 </NavItem>
-                
+                <NavItem>
+                  <NavLink tag={Link} className="text-dark" to="/error-card">Создать ошибку</NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink tag={Link} className="text-dark" to="/users">Просмотр пользователей</NavLink>
+                </NavItem>
                 <NavItem>
                   <NavLink tag={Link} className="text-dark" to="/list">Просмотр ошибок</NavLink>
                 </NavItem>

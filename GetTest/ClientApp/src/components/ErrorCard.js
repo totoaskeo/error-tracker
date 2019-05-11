@@ -14,7 +14,7 @@ class ErrorCard extends Component {
   render () {
     return (
       <Row>
-        <Col>
+        <Col xs="5">
           <Card>
             <CardBody>
               <CardTitle>
@@ -47,9 +47,9 @@ class ErrorCard extends Component {
             </CardBody>
           </Card>
         </Col>
-        <Col>
+        <Col xs="7">
           <h1 className="text-center">История ошибки</h1>
-          <ErrorHistory></ErrorHistory>
+          <ErrorHistory errorId={this.props.match.params.id}></ErrorHistory>
         </Col>
       </Row>
     )

@@ -85,6 +85,6 @@ class LoginOrSignup extends Component {
 }
 
 export default connect(
-  state => state.weatherForecasts,
+  null,
   dispatch => bindActionCreators(actionCreators, dispatch)
 )(LoginOrSignup);
