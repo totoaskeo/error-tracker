@@ -3,7 +3,6 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Card, CardBody, CardTitle, FormGroup, Row, Col, Input } from 'reactstrap';
 import { actionCreators } from '../store/Errors';
-import './ErrorList.css'
 import ErrorHistory from './ErrorHistory'
 
 class ErrorCard extends Component {

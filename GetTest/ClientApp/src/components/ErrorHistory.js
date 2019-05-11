@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { Table, Row, Col } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { actionCreators } from '../store/Errors';
-import './ErrorList.css'
 
 class ErrorHistory extends Component {
   componentDidMount () {

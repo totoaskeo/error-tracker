@@ -5,7 +5,6 @@ import { Table } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { actionCreators } from '../store/Errors';
 import Tablesort from 'tablesort';
-import './ErrorList.css'
 import ErrorListFilters from './ErrorListFilters'
 
 class ErrorList extends Component {
@@ -18,7 +17,7 @@ class ErrorList extends Component {
     return (
       <div>
         <ErrorListFilters></ErrorListFilters>
-        <Table responsive id="errList">
+        <Table className="mt-5" responsive id="errList">
           <thead>
             <tr>
               <th>Номер</th>

@@ -3,8 +3,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import autoBind from 'react-autobind';
 import { Form, FormGroup, Input, Label, Row, Button } from 'reactstrap';
-import { actionCreators } from '../store/WeatherForecasts';
-import './LoginOrSignup.css'
+import { actionCreators } from '../store/Users';
 
 class LoginOrSignup extends Component {
   constructor () {
@@ -41,7 +40,7 @@ class LoginOrSignup extends Component {
           </Form>
         </Row>
         <Row className="justify-content-center">
-          <Form id="signupForm" className="col-6" onSubmit={this.handleSignup}>
+          <Form id="signupForm" style={{display: 'none'}} className="col-6" onSubmit={this.handleSignup}>
             <FormGroup >
               <Label>Логин</Label>
               <span id="loginLink" className="float-right">Есть учётная запись? <a href="" onClick={this.showLogin}>Войти</a></span>
