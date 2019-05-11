@@ -6,10 +6,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using GetTest.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GetTest.Controllers {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ErrorsController : ControllerBase {
         private readonly GetTestContext _context;
 
