@@ -20,7 +20,22 @@ export const actionCreators = {
   },
   requestUsers: () => async (dispatch, getState) => {
     dispatch({ type: requestUsersType });
-    dispatch({ type: receiveUsersType });
+    
+    const userList = [
+      {
+        id: 1,
+        name: 'vasily',
+        surname: 'petrovich',
+        login: 'vasily@tester.org'
+      },
+      {
+        id: 2,
+        name: 'nikola',
+        surname: 'tyvala',
+        login: 'tyvala@zzz.zzz'
+      }
+    ]
+    dispatch({ type: receiveUsersType, userList});
   }
 };
 
@@ -32,6 +47,21 @@ export const reducer = (state, action) => {
       ...state,
       isLoading: true
     };
+  }
+
+  if (action.type === requestUsersType) {
+    return {
+      ...state,
+      isLoading: true
+    }
+  }
+
+  if (action.type === receiveUsersType) {
+    return {
+      ...state,
+      isLoading: false,
+      list: action.userList
+    }
   }
 
   return state;

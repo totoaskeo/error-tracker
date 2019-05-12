@@ -1,13 +1,15 @@
 import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
 import thunk from 'redux-thunk';
 import { routerReducer, routerMiddleware } from 'react-router-redux';
-import * as Classifiers from './Classifiers'
-import * as Errors from './Errors'
+import * as Classifiers from './Classifiers';
+import * as Errors from './Errors';
+import * as Users from './Users';
 
 export default function configureStore (history, initialState) {
   const reducers = {
     classifiers: Classifiers.reducer,
-    errors: Errors.reducer
+    errors: Errors.reducer,
+    users: Users.reducer
   };
 
   const middleware = [
