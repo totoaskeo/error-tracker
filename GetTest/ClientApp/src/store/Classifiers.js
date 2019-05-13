@@ -6,19 +6,21 @@ export const actionCreators = {
   requestClassifiers: () => async (dispatch, getState) => {
     dispatch({ type: requestClassifiersType });
 
-    // const url = `api/Statuses`;
-    // const response = await fetch(url);
-    // const statuses = await response.json();
+    let url = `api/Statuses`;
+    let response = await fetch(url);
+    const statuses = await response.json();
 
-    const statuses = [
-      { id: 1, name: 'Новая' },
-      { id: 2, name: 'Открытая' },
-      { id: 3, name: 'Решённая' },
-      { id: 4, name: 'Закрытая' }
-    ]
-    const priorities = statuses
-    const impacts = statuses
-    const actions = statuses
+    url = `api/Priorities`;
+    response = await fetch(url);
+    const priorities = await response.json();
+    
+    url = `api/Impacts`;
+    response = await fetch(url);
+    const impacts = await response.json();
+
+    url = `api/Actions`;
+    response = await fetch(url);
+    const actions = await response.json();
 
     dispatch({ type: receiveClassifiersType, payload: { statuses, priorities, impacts, actions } });
   }
