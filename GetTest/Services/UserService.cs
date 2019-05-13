@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using GetTest.Models;
-using GetTest.Helpers;
+using ErrorTrackerApp.Models;
+using ErrorTrackerApp.Helpers;
 
-namespace GetTest.Services
+namespace ErrorTrackerApp.Services
 {
     public interface IUserService
     {
@@ -18,9 +18,9 @@ namespace GetTest.Services
 
     public class UserService : IUserService
     {
-        private GetTestContext _context;
+        private ErrorTrackerAppContext _context;
 
-        public UserService(GetTestContext context)
+        public UserService(ErrorTrackerAppContext context)
         {
             _context = context;
         }

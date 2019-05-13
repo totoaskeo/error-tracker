@@ -1,6 +1,6 @@
 {
-  "short_name": "GetTest",
-  "name": "GetTest",
+  "short_name": "ErrorTrackerApp",
+  "name": "ErrorTrackerApp",
   "icons": [
     {
       "src": "favicon.ico",

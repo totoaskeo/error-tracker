@@ -1,19 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
-using GetTest.Services;
-using GetTest.Dtos;
+using ErrorTrackerApp.Services;
+using ErrorTrackerApp.Dtos;
 using AutoMapper;
 using System.IdentityModel.Tokens.Jwt;
-using GetTest.Helpers;
+using ErrorTrackerApp.Helpers;
 using Microsoft.Extensions.Options;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
-using GetTest.Models;
+using ErrorTrackerApp.Models;
 using Microsoft.AspNetCore.Authorization;
 
-namespace GetTest.Controllers
+namespace ErrorTrackerApp.Controllers
 {
     [Authorize]
     [ApiController]

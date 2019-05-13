@@ -5,17 +5,17 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using GetTest.Models;
+using ErrorTrackerApp.Models;
 
-namespace GetTest.Controllers
+namespace ErrorTrackerApp.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class PrioritiesController : ControllerBase
     {
-        private readonly GetTestContext _context;
+        private readonly ErrorTrackerAppContext _context;
 
-        public PrioritiesController(GetTestContext context)
+        public PrioritiesController(ErrorTrackerAppContext context)
         {
             _context = context;
         }

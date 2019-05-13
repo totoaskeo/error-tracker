@@ -1,4 +1,4 @@
-﻿namespace GetTest.Dtos
+﻿namespace ErrorTrackerApp.Dtos
 {
     public class UserDto
     {

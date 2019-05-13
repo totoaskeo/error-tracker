@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.28803.352
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.572
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GetTest", "GetTest\GetTest.csproj", "{8A89A6B5-2D0F-4BB9-823B-14BB3227D54E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ErrorTracker", "GetTest\ErrorTracker.csproj", "{8A89A6B5-2D0F-4BB9-823B-14BB3227D54E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace GetTest.Models {
+namespace ErrorTrackerApp.Models {
     [Table("Status")]
     public class Status {
         protected Status() { }

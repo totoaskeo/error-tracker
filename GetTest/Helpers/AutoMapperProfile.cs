@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using GetTest.Dtos;
-using GetTest.Models;
+using ErrorTrackerApp.Dtos;
+using ErrorTrackerApp.Models;
 
 namespace WebApi.Helpers
 {

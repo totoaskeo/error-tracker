@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using GetTest.Models;
+using ErrorTrackerApp.Models;
 
-namespace GetTest.Models
+namespace ErrorTrackerApp.Models
 {
-    public class GetTestContext : DbContext
+    public class ErrorTrackerAppContext : DbContext
     {
-        public GetTestContext (DbContextOptions<GetTestContext> options)
+        public ErrorTrackerAppContext (DbContextOptions<ErrorTrackerAppContext> options)
             : base(options)
         {
         }

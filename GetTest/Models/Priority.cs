@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace GetTest.Models {
+namespace ErrorTrackerApp.Models {
     [Table("Priority")]
     public class Priority {
         public int Id { get; set; }

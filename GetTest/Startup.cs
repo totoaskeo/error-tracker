@@ -7,8 +7,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
-using GetTest.Helpers;
-using GetTest.Services;
+using ErrorTrackerApp.Helpers;
+using ErrorTrackerApp.Services;
 using AutoMapper;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
@@ -16,9 +16,9 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
-using GetTest.Models;
+using ErrorTrackerApp.Models;
 
-namespace GetTest {
+namespace ErrorTrackerApp {
     public class Startup {
         public Startup(IConfiguration configuration) {
             Configuration = configuration;
@@ -37,11 +37,11 @@ namespace GetTest {
                 configuration.RootPath = "ClientApp/build";
             });
 
-            //services.AddDbContext<GetTestContext>(options =>
-            //    options.UseSqlServer(Configuration.GetConnectionString("GetTestContext")));
+            //services.AddDbContext<ErrorTrackerAppContext>(options =>
+            //    options.UseSqlServer(Configuration.GetConnectionString("ErrorTrackerAppContext")));
 
-            services.AddDbContext<GetTestContext>(options =>
-                options.UseInMemoryDatabase("GetTestDB")
+            services.AddDbContext<ErrorTrackerAppContext>(options =>
+                options.UseInMemoryDatabase("ErrorTrackerAppDB")
             );
 
             // configure strongly typed settings objects

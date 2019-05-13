@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace GetTest.Helpers
+namespace ErrorTrackerApp.Helpers
 {
     public class AppSettings
     {
