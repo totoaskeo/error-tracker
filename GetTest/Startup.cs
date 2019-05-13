@@ -37,8 +37,12 @@ namespace GetTest {
                 configuration.RootPath = "ClientApp/build";
             });
 
+            //services.AddDbContext<GetTestContext>(options =>
+            //    options.UseSqlServer(Configuration.GetConnectionString("GetTestContext")));
+
             services.AddDbContext<GetTestContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("GetTestContext")));
+                options.UseInMemoryDatabase("GetTestDB")
+            );
 
             // configure strongly typed settings objects
             var appSettingsSection = Configuration.GetSection("AppSettings");
