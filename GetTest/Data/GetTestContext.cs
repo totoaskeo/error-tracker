@@ -28,5 +28,6 @@ namespace GetTest.Models
         public DbSet<Priority> Priority { get; set; }
         public DbSet<Status> Status { get; set; }
         #endregion
+        public DbSet<User> Users { get; set; }
     }
 }
