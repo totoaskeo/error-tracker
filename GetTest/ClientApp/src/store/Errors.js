@@ -1,7 +1,20 @@
 const requestErrorListType = 'REQUEST_ERROR_LIST';
-const receiveErrorListType = 'RECEIVE_ERROR_LIST';
 const requestErrorByIdType = 'REQUEST_ERROR_BY_ID';
+const requestCreateErrorType = 'REQUEST_CREATE_ERROR';
+const requestUpdateErrorType = 'REQUEST_UPDATE_ERROR';
+const requestDeleteErrorType = 'REQUEST_DELETE_ERROR';
+
+const successCreateErrorType = 'SUCCESS_CREATE_ERROR';
+const successUpdateErrorType = 'SUCCESS_UPDATE_ERROR';
+const successDeleteErrorType = 'SUCCESS_DELETE_ERROR';
+
+const failureCreateErrorType = 'FAILURE_CREATE_ERROR';
+const failureUpdateErrorType = 'FAILURE_UPDATE_ERROR';
+const failureDeleteErrorType = 'FAILURE_DELETE_ERROR';
+
+const receiveErrorListType = 'RECEIVE_ERROR_LIST';
 const receiveErrorByIdType = 'RECEIVE_ERROR_BY_ID';
+
 const initialState = { list: [], isLoading: false, params: {}, oneById: { errorHistory: [] } };
 
 export const actionCreators = {
