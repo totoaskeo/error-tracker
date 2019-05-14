@@ -9,14 +9,32 @@ class LoginOrSignup extends Component {
   constructor () {
     super();
     autoBind(this);
+    this.state = {
+      login: '',
+      name: '',
+      surname: '',
+      password: '',
+      confirmPassword: ''
+    }
   }
 
   handleLogin (event) {
-    event.preventDefault()
+    event.preventDefault();
+    this.props.loginUser(this.state.login, this.state.password);
   }
 
   handleSignup (event) {
+    if (this.state.confirmPassword !== this.state.password) {
+      // TODO show validation message
+      return;
+    }
+    this.props.registerUser(this.state);
     event.preventDefault()
+  }
+
+  handleChange (event) {
+    const { name, value } = event.target;
+    this.setState({ [name]: value });
   }
 
   render () {
@@ -28,11 +46,11 @@ class LoginOrSignup extends Component {
             <FormGroup className="clearfix">
               <Label className="float-left">Логин</Label>
               <span id="signupLink" className="float-right">Нет учётной записи? <a href="" onClick={this.showSignup}>Регистрация</a></span>
-              <Input></Input>
+              <Input value={this.state.login} onChange={this.handleChange} name="login"></Input>
             </FormGroup>
             <FormGroup>
               <Label>Пароль</Label>
-              <Input type="password"></Input>
+              <Input type="password" value={this.state.password} onChange={this.handleChange} name="password"></Input>
             </FormGroup>
             <FormGroup>
               <Button>Войти</Button>
@@ -44,23 +62,23 @@ class LoginOrSignup extends Component {
             <FormGroup >
               <Label>Логин</Label>
               <span id="loginLink" className="float-right">Есть учётная запись? <a href="" onClick={this.showLogin}>Войти</a></span>
-              <Input></Input>
+              <Input value={this.state.login} onChange={this.handleChange} name="login"></Input>
             </FormGroup>
             <FormGroup >
               <Label>Имя</Label>
-              <Input></Input>
+              <Input value={this.state.name} onChange={this.handleChange} name="name"></Input>
             </FormGroup>
             <FormGroup >
               <Label>Фамилия</Label>
-              <Input></Input>
+              <Input value={this.state.surname} onChange={this.handleChange} name="surname"></Input>
             </FormGroup>
             <FormGroup >
               <Label>Пароль</Label>
-              <Input type="password"></Input>
+              <Input type="password" value={this.state.password} onChange={this.handleChange} name="password"></Input>
             </FormGroup>
             <FormGroup >
               <Label>Подтверждение пароля</Label>
-              <Input type="password"></Input>
+              <Input type="password" value={this.state.confirmPassword} onChange={this.handleChange} name="confirmPassword"></Input>
             </FormGroup>
             <FormGroup>
               <Button>Зарегистрироваться</Button>

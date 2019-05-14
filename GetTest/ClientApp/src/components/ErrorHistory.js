@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Table, Row, Col } from 'reactstrap';
-import { Link } from 'react-router-dom';
+import { Table} from 'reactstrap';
 import Tablesort from 'tablesort';
 import { actionCreators } from '../store/Errors';
 
 class ErrorHistory extends Component {
   componentDidMount () {
-    this.props.requestErrorById(this.props.errorId)
+    new Tablesort(document.getElementById('errHist'));
+    this.props.requestErrorById(this.props.errorId);
   }
 
   render () {

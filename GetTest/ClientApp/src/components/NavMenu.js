@@ -1,9 +1,10 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Collapse, Container, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import './NavMenu.css';
 
-export default class NavMenu extends React.Component {
+class NavMenu extends React.Component {
   constructor (props) {
     super(props);
 
@@ -25,23 +26,34 @@ export default class NavMenu extends React.Component {
             <NavbarBrand tag={Link} to="/">ErrorTrackerApp</NavbarBrand>
             <NavbarToggler onClick={this.toggle} className="mr-2" />
             <Collapse className="d-sm-inline-flex flex-sm-row-reverse" isOpen={this.state.isOpen} navbar>
-              <ul className="navbar-nav flex-grow">
-                <NavItem>
-                  <NavLink tag={Link} className="text-dark" to="/">На главную</NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink tag={Link} className="text-dark" to="/error-card">Создать ошибку</NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink tag={Link} className="text-dark" to="/users">Просмотр пользователей</NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink tag={Link} className="text-dark" to="/list">Просмотр ошибок</NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink tag={Link} className="text-dark" to="/login-or-signup">Войти</NavLink>
-                </NavItem>
-              </ul>
+              {this.props.user.token ? ( // authorized navs
+                <ul className="navbar-nav flex-grow">
+                  <NavItem>
+                    <NavLink tag={Link} className="text-dark" to="/">На главную</NavLink>
+                  </NavItem>
+                  <NavItem>
+                    <NavLink tag={Link} className="text-dark" to="/error-card">Создать ошибку</NavLink>
+                  </NavItem>
+                  <NavItem>
+                    <NavLink tag={Link} className="text-dark" to="/users">Просмотр пользователей</NavLink>
+                  </NavItem>
+                  <NavItem>
+                    <NavLink tag={Link} className="text-dark" to="/list">Просмотр ошибок</NavLink>
+                  </NavItem>
+                  <NavItem>
+                    <NavLink tag={Link} className="text-dark" to="/profile">{this.props.user.login}</NavLink>
+                  </NavItem>
+                </ul>
+              ) : ( // unauthorized navs
+                <ul className="navbar-nav flex-grow">
+                  <NavItem>
+                    <NavLink tag={Link} className="text-dark" to="/">На главную</NavLink>
+                  </NavItem>
+                  <NavItem>
+                    <NavLink tag={Link} className="text-dark" to="/login-or-signup">Войти</NavLink>
+                  </NavItem>
+                </ul>
+              )}
             </Collapse>
           </Container>
         </Navbar>
@@ -49,3 +61,8 @@ export default class NavMenu extends React.Component {
     );
   }
 }
+
+export default connect(
+  state => ({ user: state.users.user }),
+  null
+)(NavMenu);

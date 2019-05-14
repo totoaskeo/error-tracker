@@ -36,10 +36,12 @@ export const actionCreators = {
     const url = `api/Users`;
     const options = {
       method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(user)
     }
     const response = await fetch(url, options);
-    const result = await response.json();
+    console.log(response)
+    const result = response;
     if (response.ok) {
       dispatch({ type: successUserRegistrationType, result });
     } else {
@@ -52,10 +54,12 @@ export const actionCreators = {
     const url = `api/Users/authenticate`;
     const options = {
       method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ login, password })
     }
     const response = await fetch(url, options);
     const user = await response.json();
+    console.log(user);
     if (response.ok) {
       dispatch({ type: successUserLoginType, user });
     } else {
