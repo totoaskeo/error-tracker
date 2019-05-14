@@ -1,5 +1,6 @@
 import React from 'react';
 import { Route } from 'react-router';
+import { connect } from 'react-redux';
 import Layout from './components/Layout';
 import Home from './components/Home';
 import LoginOrSignup from './components/LoginOrSignup';
@@ -7,11 +8,10 @@ import ErrorList from './components/ErrorList';
 import ErrorCard from './components/ErrorCard';
 import UserList from './components/UserList';
 import UserProfile from './components/UserProfile';
-import AuthorizedRoute from './components/AuthorizedRoute';
 
-export default () => (
+const App = () => (
   <Layout>
-    <AuthorizedRoute exact path='/users' component={UserList}></AuthorizedRoute>
+    <Route exact path='/users' render={() => <UserList/>}></Route>
     <Route exact path='/' component={Home} />
     <Route path='/login-or-signup' component={LoginOrSignup}/>
     <Route path='/list' component={ErrorList}></Route>
@@ -19,3 +19,5 @@ export default () => (
     <Route path='/user/:id' component={UserProfile}></Route>
   </Layout>
 );
+
+export default connect(state => state.users.user, null)(App)

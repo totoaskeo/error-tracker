@@ -28,7 +28,8 @@ export const actionCreators = {
   requestUsers: () => async (dispatch, getState) => {
     dispatch({ type: requestUsersType });
     const url = `api/Users`;
-    const userList = await fetch(url);
+    const response = await fetch(url);
+    const userList = await response.json();
     dispatch({ type: receiveUsersType, userList});
   },
   registerUser: user => async (dispatch, getState) => {
@@ -41,7 +42,7 @@ export const actionCreators = {
     }
     const response = await fetch(url, options);
     console.log(response)
-    const result = response;
+    const result = await response.json();
     if (response.ok) {
       dispatch({ type: successUserRegistrationType, result });
     } else {
