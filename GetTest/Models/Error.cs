@@ -12,7 +12,7 @@ namespace ErrorTrackerApp.Models {
         public DateTime DateCreated { get; set; }
         public string ShortDesc { get; set; }
         public string Description { get; set; }
-        [ForeignKey("Id")]
+        [ForeignKey("StatusId")]
         public virtual Status Status { get; set; }
         [ForeignKey("PriorityId")]
         public virtual Priority Priority { get; set; }
