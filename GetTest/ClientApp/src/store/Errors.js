@@ -59,24 +59,11 @@ export const actionCreators = {
 
   requestErrorById: id => async (dispatch, getState) => {
     dispatch({ type: requestErrorByIdType })
-    let oneById
-    if (id === '1') {
-      oneById = {
-        id: 1,
-        dateCreated: '2019-02-04 14:00:23',
-        shortDesc: 'lorem ipsum dolor sit a met',
-        user: 'vasily@tester.org',
-        status: 'Новая',
-        priority: 'Срочная',
-        impact: 'Критическая',
-        description: 'lorem ipsum dolor sit a metlorem ipsum dolor sit a metlorem ipsum dolor sit a metlorem ipsum dolor sit a metlorem ipsum dolor sit a metlorem ipsum dolor sit a metlorem ipsum dolor sit a met',
-        errorHistory: [{
-          date: '2019-02-04 14:00:23',
-          user: 'sizif@ad.god',
-          action: 'Пошёл',
-          comment: 'очень плохо исправлена ошибка, не исправлены последствия исправления'
-        }]
-      }
+    let oneById = { errorHistory: [] }
+    if (id) {
+      const url = `api/Errors${id}`;
+      const response = await fetch(url);
+      oneById = await response.json();
     }
     dispatch({ type: receiveErrorByIdType, oneById })
   }

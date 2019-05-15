@@ -6,19 +6,26 @@ import { actionCreators } from '../store/Errors';
 import ErrorHistory from './ErrorHistory'
 
 class ErrorCard extends Component {
+  constructor () {
+    super();
+    this.state = { isReadOnly: true }
+  }
   componentDidMount () {
-    this.props.requestErrorById(this.props.match.params.id)
+    this.props.requestErrorById(this.props.match.params.id);
+    this.setState({ isReadOnly: !!this.props.error.id });
     // this.props.requestClassifiers()
   }
 
   render () {
+    const errNum = this.props.error.id || '';
     return (
       <Row>
         <Col xs="5">
           <Card>
             <CardBody>
               <CardTitle>
-                <Input value={'Ошибка ' + this.props.error.id + ' — ' + this.props.error.shortDesc}></Input>
+                <h5>Ошибка {errNum}</h5>
+                <Input value={this.props.error.shortDesc} readOnly={this.state.isReadOnly}></Input>
               </CardTitle>
               <Input type="textarea" rows="10" value={this.props.error.description}></Input>
               <Row className="mt-3">
@@ -40,7 +47,7 @@ class ErrorCard extends Component {
                       {this.props.classifiers.priorities.map(p =>
                         <option key={p.id} value={p.id}>{p.name}</option>
                       )}
-                    </Input> 
+                    </Input>
                   </FormGroup>
                 </Col>
               </Row>
