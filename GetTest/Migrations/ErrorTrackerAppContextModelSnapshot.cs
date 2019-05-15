@@ -30,6 +30,28 @@ namespace ErrorTracker.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Action");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Ввод"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Открытие"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Решение"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Закрытие"
+                        });
                 });
 
             modelBuilder.Entity("ErrorTrackerApp.Models.Error", b =>
@@ -103,6 +125,28 @@ namespace ErrorTracker.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Impact");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Авария"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Критичная"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Некритичная"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Запрос на изменение"
+                        });
                 });
 
             modelBuilder.Entity("ErrorTrackerApp.Models.Priority", b =>
@@ -116,6 +160,28 @@ namespace ErrorTracker.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Priority");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Очень срочно"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Срочно"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Несрочно"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Совсем несрочно"
+                        });
                 });
 
             modelBuilder.Entity("ErrorTrackerApp.Models.Status", b =>
@@ -129,6 +195,28 @@ namespace ErrorTracker.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Status");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Новая"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Открытая"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Решённая"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Закрытая"
+                        });
                 });
 
             modelBuilder.Entity("ErrorTrackerApp.Models.User", b =>

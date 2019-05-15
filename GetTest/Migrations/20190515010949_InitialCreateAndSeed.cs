@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ErrorTracker.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class InitialCreateAndSeed : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -14,7 +14,7 @@ namespace ErrorTracker.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(nullable: false)
+                    Name = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -27,7 +27,7 @@ namespace ErrorTracker.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(nullable: false)
+                    Name = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -40,7 +40,7 @@ namespace ErrorTracker.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(nullable: false)
+                    Name = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -53,7 +53,7 @@ namespace ErrorTracker.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(nullable: false)
+                    Name = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -66,11 +66,11 @@ namespace ErrorTracker.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Login = table.Column<string>(nullable: false),
-                    Name = table.Column<string>(nullable: false),
-                    Surname = table.Column<string>(nullable: false),
-                    PasswordSalt = table.Column<byte[]>(nullable: false),
-                    PasswordHash = table.Column<byte[]>(nullable: false)
+                    Login = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(nullable: true),
+                    Surname = table.Column<string>(nullable: true),
+                    PasswordSalt = table.Column<byte[]>(nullable: true),
+                    PasswordHash = table.Column<byte[]>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -84,12 +84,12 @@ namespace ErrorTracker.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     DateCreated = table.Column<DateTime>(nullable: false),
-                    ShortDesc = table.Column<string>(nullable: false),
-                    Description = table.Column<string>(nullable: false),
-                    StatusId = table.Column<int>(nullable: false),
-                    PriorityId = table.Column<int>(nullable: false),
-                    ImpactId = table.Column<int>(nullable: false),
-                    UserId = table.Column<int>(nullable: false)
+                    ShortDesc = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: true),
+                    StatusId = table.Column<int>(nullable: true),
+                    PriorityId = table.Column<int>(nullable: true),
+                    ImpactId = table.Column<int>(nullable: true),
+                    UserId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -126,10 +126,10 @@ namespace ErrorTracker.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    ErrorId = table.Column<int>(nullable: false),
-                    ActionId = table.Column<int>(nullable: false),
-                    Comment = table.Column<string>(nullable: false),
-                    UserId = table.Column<int>(nullable: false),
+                    ErrorId = table.Column<int>(nullable: true),
+                    ActionId = table.Column<int>(nullable: true),
+                    Comment = table.Column<string>(nullable: true),
+                    UserId = table.Column<int>(nullable: true),
                     Date = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
@@ -153,6 +153,50 @@ namespace ErrorTracker.Migrations
                         principalTable: "User",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.InsertData(
+                table: "Action",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { 1, "Ввод" },
+                    { 2, "Открытие" },
+                    { 3, "Решение" },
+                    { 4, "Закрытие" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Impact",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { 1, "Авария" },
+                    { 2, "Критичная" },
+                    { 3, "Некритичная" },
+                    { 4, "Запрос на изменение" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Priority",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { 1, "Очень срочно" },
+                    { 2, "Срочно" },
+                    { 3, "Несрочно" },
+                    { 4, "Совсем несрочно" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Status",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { 1, "Новая" },
+                    { 2, "Открытая" },
+                    { 3, "Решённая" },
+                    { 4, "Закрытая" }
                 });
 
             migrationBuilder.CreateIndex(

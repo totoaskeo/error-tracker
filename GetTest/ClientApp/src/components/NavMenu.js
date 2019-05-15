@@ -26,7 +26,6 @@ class NavMenu extends React.Component {
             <NavbarBrand tag={Link} to="/">ErrorTrackerApp</NavbarBrand>
             <NavbarToggler onClick={this.toggle} className="mr-2" />
             <Collapse className="d-sm-inline-flex flex-sm-row-reverse" isOpen={this.state.isOpen} navbar>
-              {this.props.user.token ? ( // authorized navs
                 <ul className="navbar-nav flex-grow">
                   <NavItem>
                     <NavLink tag={Link} className="text-dark" to="/">На главную</NavLink>
@@ -41,19 +40,12 @@ class NavMenu extends React.Component {
                     <NavLink tag={Link} className="text-dark" to="/list">Просмотр ошибок</NavLink>
                   </NavItem>
                   <NavItem>
+                    <NavLink tag={Link} className="text-dark" to="/login-or-signup">Войти</NavLink>
+                  </NavItem>
+                  <NavItem>
                     <NavLink tag={Link} className="text-dark" to="/profile">{this.props.user.login}</NavLink>
                   </NavItem>
                 </ul>
-              ) : ( // unauthorized navs
-                <ul className="navbar-nav flex-grow">
-                  <NavItem>
-                    <NavLink tag={Link} className="text-dark" to="/">На главную</NavLink>
-                  </NavItem>
-                  <NavItem>
-                    <NavLink tag={Link} className="text-dark" to="/login-or-signup">Войти</NavLink>
-                  </NavItem>
-                </ul>
-              )}
             </Collapse>
           </Container>
         </Navbar>

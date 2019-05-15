@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 namespace ErrorTrackerApp.Models {
     [Table("Status")]
     public class Status {
-        protected Status() { }
         public int Id { get; set; }
         public string Name { get; set; }
     }

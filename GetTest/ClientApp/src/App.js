@@ -9,15 +9,15 @@ import ErrorCard from './components/ErrorCard';
 import UserList from './components/UserList';
 import UserProfile from './components/UserProfile';
 
-const App = () => (
+export default () => (
   <Layout>
-    <Route exact path='/users' render={() => <UserList/>}></Route>
     <Route exact path='/' component={Home} />
     <Route path='/login-or-signup' component={LoginOrSignup}/>
     <Route path='/list' component={ErrorList}></Route>
     <Route path='/error-card/:id?' component={ErrorCard}></Route>
+    <Route path='/users' component={UserList}></Route>
     <Route path='/user/:id' component={UserProfile}></Route>
   </Layout>
 );
 
-export default connect(state => state.users.user, null)(App)
+//export default connect(state => state.users.user, null)(App)
