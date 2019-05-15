@@ -33,8 +33,7 @@ class LoginOrSignup extends Component {
   }
 
   handleChange (event) {
-    const { name, value } = event.target;
-    this.setState({ [name]: value });
+    this.setState({ [event.target.name]: event.target.value })
   }
 
   render () {

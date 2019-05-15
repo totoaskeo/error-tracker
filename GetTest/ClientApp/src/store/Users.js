@@ -15,7 +15,7 @@ const failureUpdateUserType = 'FAILURE_UPDATE_USER';
 const receiveUserByIdType = 'RECEIVE_USER_BY_ID';
 const receiveUsersType = 'RECEIVE_USERS';
 
-const initialState = { user: {}, errorMsg: null, isLoading: false, list: [] };
+const initialState = { user: JSON.parse(localStorage.getItem('user')) || {}, msg: '', isLoading: false, list: [] };
 
 export const actionCreators = {
   requestUserById: id => async (dispatch, getState) => {
@@ -41,13 +41,13 @@ export const actionCreators = {
       body: JSON.stringify(user)
     }
     const response = await fetch(url, options);
-    console.log(response)
-    const result = await response.json();
+    let msg = '';
     if (response.ok) {
-      dispatch({ type: successUserRegistrationType, result });
+      msg = 'Пользователь зарегистрирован';
+      dispatch({ type: successUserRegistrationType, msg });
     } else {
-      const errMsg = await response.text()
-      dispatch({ type: failureUserRegistrationType, errMsg });
+      msg = await response.text()
+      dispatch({ type: failureUserRegistrationType, msg });
     }
   },
   loginUser: (login, password) => async (dispatch, getState) => {
@@ -60,12 +60,13 @@ export const actionCreators = {
     }
     const response = await fetch(url, options);
     const user = await response.json();
-    console.log(user);
+    let msg = '';
     if (response.ok) {
-      dispatch({ type: successUserLoginType, user });
+      localStorage.setItem('user', JSON.stringify(user));
+      dispatch({ type: successUserLoginType, user, msg });
     } else {
-      const errMsg = await response.text()
-      dispatch({ type: failureUserLoginType, errMsg })
+      msg = await response.text()
+      dispatch({ type: failureUserLoginType, msg })
     }
   },
   updateUser: (id, user) => async (dispatch, getState) => {
@@ -76,12 +77,13 @@ export const actionCreators = {
       body: JSON.stringify(user)
     }
     const response = await fetch(url, options);
-    const result = await response.json();
+    let msg = '';
     if (response.ok) {
-      dispatch({ type: successUpdateUserType, result });
+      msg = 'Данные пользователя обновлены';
+      dispatch({ type: successUpdateUserType, msg });
     } else {
-      const errMsg = await response.text()
-      dispatch({ type: failureUpdateUserType, errMsg })
+      msg = await response.text()
+      dispatch({ type: failureUpdateUserType, msg })
     }
   }
 };
@@ -122,7 +124,8 @@ export const reducer = (state, action) => {
   if (action.type === successUpdateUserType) {
     return {
       ...state,
-      isLoading: false
+      isLoading: false,
+      msg: action.msg
     }
   }
 
@@ -130,14 +133,16 @@ export const reducer = (state, action) => {
     return {
       ...state,
       isLoading: false,
-      user: action.user
+      user: action.user,
+      msg: action.msg
     }
   }
 
   if (action.type === successUserRegistrationType) {
     return {
       ...state,
-      isLoading: false
+      isLoading: false,
+      msg: action.msg
     }
   }
 

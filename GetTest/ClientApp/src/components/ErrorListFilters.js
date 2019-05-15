@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Row, Form, Input, Label, Col, Button } from 'reactstrap';
-import { actionCreators } from '../store/Classifiers';
+import { actionCreatorsCl } from '../store/Classifiers';
 
 class ErrorListFilters extends Component {
   componentDidMount() {
@@ -63,5 +63,5 @@ export default connect(
     priorities: state.classifiers.priorities,
     impacts: state.classifiers.impacts
   }),
-  dispatch => bindActionCreators(actionCreators, dispatch)
+  dispatch => bindActionCreators(actionCreatorsCl, dispatch)
 )(ErrorListFilters);

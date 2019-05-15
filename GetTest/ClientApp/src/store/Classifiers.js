@@ -2,7 +2,7 @@ const requestClassifiersType = 'REQUEST_CLASSIFIERS';
 const receiveClassifiersType = 'RECEIVE_CLASSIFIERS';
 const initialState = { statuses: [], priorities: [], impacts: [], actions: [] };
 
-export const actionCreators = {
+export const actionCreatorsCl = {
   requestClassifiers: () => async (dispatch, getState) => {
     dispatch({ type: requestClassifiersType });
 
