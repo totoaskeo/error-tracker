@@ -8,9 +8,17 @@ import Tablesort from 'tablesort';
 import ErrorListFilters from './ErrorListFilters'
 
 class ErrorList extends Component {
+  constructor () {
+    super();
+    this.state = {
+      errors: []
+    }
+  }
+
   componentDidMount () {
     new Tablesort(document.getElementById('errList'));
-    this.props.requestErrorList()
+    this.props.requestErrorList();
+    this.setState({ errors: this.props.errors });
   }
 
   render () {
@@ -30,7 +38,7 @@ class ErrorList extends Component {
             </tr>
           </thead>
           <tbody>
-            {this.props.errors.map(e =>
+            {this.state.errors.map(e =>
               <tr key={e.id}>
                 <td><Link to={`/error-card/${e.id}`}>{e.id}</Link></td>
                 <td>{e.dateCreated}</td>

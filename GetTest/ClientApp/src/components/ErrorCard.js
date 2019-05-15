@@ -13,7 +13,7 @@ class ErrorCard extends Component {
   constructor () {
     super();
     autoBind(this);
-    this.state = { isReadOnly: true, error: {} };
+    this.state = { isReadOnly: true, error: { } };
   }
 
   componentDidMount () {
@@ -24,9 +24,8 @@ class ErrorCard extends Component {
 
   handleChange (event) {
     const { name, value } = event.target;
-    console.log(name, value);
-    const error = { ...this.state.error, [name]: value}
-    this.setState(error);
+    const error = { ...this.state.error, [name]: value };
+    this.setState({ error });
   }
 
   handleSaveClick (event) {
@@ -34,7 +33,7 @@ class ErrorCard extends Component {
     if (this.state.isReadOnly) { // update
 
     } else { // create
-      
+      this.props.createError(this.state.error);
     }
   }
 

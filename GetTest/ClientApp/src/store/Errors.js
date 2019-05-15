@@ -56,7 +56,6 @@ export const actionCreators = {
 
     dispatch({ type: receiveErrorListType, errorList, params });
   },
-
   requestErrorById: id => async (dispatch, getState) => {
     dispatch({ type: requestErrorByIdType })
     let oneById = { errorHistory: [] }
@@ -66,6 +65,21 @@ export const actionCreators = {
       oneById = await response.json();
     }
     dispatch({ type: receiveErrorByIdType, oneById })
+  },
+  createError: error => async (dispatch, getState) => {
+    dispatch({ type: requestCreateErrorType });
+    const url = `api/Errors`;
+    const options = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(error)
+    }
+    const response = await fetch(url, options);
+    if (response.ok) {
+      dispatch({ type: successCreateErrorType });
+    } else {
+      dispatch({ type: failureCreateErrorType });
+    }
   }
 };
 
