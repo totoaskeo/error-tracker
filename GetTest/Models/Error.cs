@@ -20,5 +20,6 @@ namespace ErrorTrackerApp.Models {
         public virtual Impact Impact { get; set; }
         [ForeignKey("UserId")]
         public virtual User User { get; set; }
+        public virtual ICollection<ErrorHistory> ErrorHistory { get; set; }
     }
 }

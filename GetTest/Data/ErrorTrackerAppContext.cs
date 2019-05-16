@@ -15,9 +15,10 @@ namespace ErrorTrackerApp.Models
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     => optionsBuilder
-        .UseLazyLoadingProxies();
+        .UseLazyLoadingProxies().EnableDetailedErrors();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
+            modelBuilder.Entity<Error>().HasMany(e => e.ErrorHistory);
             #region ClassifiersSeed
             modelBuilder.Entity<Action>().HasData(
                 new Action { Id = 1, Name = "Ввод" },

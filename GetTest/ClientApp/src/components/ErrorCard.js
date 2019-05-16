@@ -13,12 +13,23 @@ class ErrorCard extends Component {
   constructor () {
     super();
     autoBind(this);
-    this.state = { isReadOnly: true, error: { } };
+    this.state = { isReadOnly: true,
+      error: {
+        shortDesc: '',
+        description: '',
+        priorityId: 1,
+        statusId: 1,
+        impactId: 1,
+        userId: JSON.parse(localStorage.getItem('user')).id,
+        errorHistory: [],
+        dateCreated: '' // later
+      }
+    };
   }
 
   componentDidMount () {
     this.props.requestErrorById(this.props.match.params.id);
-    this.setState({ isReadOnly: !!this.props.error.id, error: this.props.error });
+    this.setState({ isReadOnly: !!this.props.error.id, error: { ...this.state.error, ...this.props.error } });
     this.props.requestClassifiers();
   }
 
@@ -28,10 +39,13 @@ class ErrorCard extends Component {
     this.setState({ error });
   }
 
-  handleSaveClick (event) {
-    console.log(this.state.error)
+  async handleSaveClick (event) {
+    event.preventDefault();
+    const dateCreated = new Date().toISOString().slice(0, 19).replace('T', ' ');
+    await this.setState({ error: { ...this.state.error, dateCreated } });
+    console.log(this.state.error);
     if (this.state.isReadOnly) { // update
-
+      this.props.updateError(this.state.error);
     } else { // create
       this.props.createError(this.state.error);
     }
@@ -50,7 +64,7 @@ class ErrorCard extends Component {
           <Card className="mt-3">
             <CardBody>
               <CardTitle>
-                <p>Новая ошибка {errNum}</p>
+                <p>Ошибка {errNum}</p>
                 <Input value={this.state.error.shortDesc} onChange={this.handleChange} {... { disabled: this.state.isReadOnly } } name="shortDesc"></Input>
               </CardTitle>
               <Input type="textarea" rows="10" value={this.state.error.description} onChange={this.handleChange}
@@ -60,7 +74,7 @@ class ErrorCard extends Component {
                 <Col xs="5">
                   <div>{this.state.error.dateCreated}</div>
                   <div>{this.state.error.user}</div>
-                  <div className="mt-3">Статус: {this.state.error.status}</div>
+                  <div className="mt-3">Статус: {this.state.error.status || 'Новая'}</div>
                 </Col>
                 <Col xs="7">
                   <FormGroup>
@@ -89,7 +103,7 @@ class ErrorCard extends Component {
         </Col>
         <Col xs="7">
           <h1 className="text-center">История ошибки</h1>
-          <ErrorHistory errorId={this.props.match.params.id}></ErrorHistory>
+          <ErrorHistory errorHistory={this.state.error.errorHistory}></ErrorHistory>
         </Col>
       </Row>
     )

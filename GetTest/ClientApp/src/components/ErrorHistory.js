@@ -8,7 +8,6 @@ import { actionCreators } from '../store/Errors';
 class ErrorHistory extends Component {
   componentDidMount () {
     new Tablesort(document.getElementById('errHist'));
-    this.props.requestErrorById(this.props.errorId);
   }
 
   render () {
@@ -24,7 +23,7 @@ class ErrorHistory extends Component {
             </tr>
           </thead>
           <tbody>
-            {this.props.error.errorHistory.map(eh =>
+            {this.props.errorHistory.map(eh =>
               <tr key={eh.id}>
                 <td>{eh.date}</td>
                 <td>{eh.action}</td>

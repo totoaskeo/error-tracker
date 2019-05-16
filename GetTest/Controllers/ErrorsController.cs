@@ -64,8 +64,17 @@ namespace ErrorTrackerApp.Controllers {
         [HttpPost]
         public async Task<ActionResult<Error>> PostError(Error error) {
             _context.Error.Add(error);
+            var errorHistory = new ErrorHistory
+            {
+                Error = error,
+                Action = _context.Action.SingleOrDefault(a => a.Name == "Ввод"),
+                Comment = "",
+                User = error.User,
+                Date = DateTime.Now
+            };
+            _context.ErrorHistory.Add(errorHistory);
             await _context.SaveChangesAsync();
-
+            
             return CreatedAtAction("GetError", new { id = error.Id }, error);
         }
 

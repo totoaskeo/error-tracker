@@ -1,3 +1,5 @@
+import { authHeader } from '../helpers/authHeader';
+
 const requestErrorListType = 'REQUEST_ERROR_LIST';
 const requestErrorByIdType = 'REQUEST_ERROR_BY_ID';
 const requestCreateErrorType = 'REQUEST_CREATE_ERROR';
@@ -30,24 +32,6 @@ export const actionCreators = {
     dispatch({ type: requestErrorListType });
 
     const errorList = [
-      {
-        id: 1,
-        dateCreated: '2019-02-04 14:00:23',
-        shortDesc: 'lorem ipsum dolor sit a met',
-        user: 'vasily@tester.org',
-        status: 'Новая',
-        priority: 'Срочная',
-        impact: 'Критическая'
-      },
-      {
-        id: 2,
-        dateCreated: '2019-02-04 14:00:23',
-        shortDesc: 'lorem ipsum bla blah',
-        user: 'yozef@tester.org',
-        status: 'Решённая',
-        priority: 'Несрочная',
-        impact: 'Авария'
-      }
     ]
 
     // const url = `api/Errors/startDateIndex=${startDateIndex}`;
@@ -71,12 +55,14 @@ export const actionCreators = {
     const url = `api/Errors`;
     const options = {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { ...authHeader(), 'Content-Type': 'application/json' },
       body: JSON.stringify(error)
     }
     const response = await fetch(url, options);
+    const createdError = await response.json();
+    console.log(createdError)
     if (response.ok) {
-      dispatch({ type: successCreateErrorType });
+      dispatch({ type: successCreateErrorType, oneById: createdError });
     } else {
       dispatch({ type: failureCreateErrorType });
     }
@@ -111,6 +97,14 @@ export const reducer = (state, action) => {
   }
 
   if (action.type === receiveErrorByIdType) {
+    return {
+      ...state,
+      oneById: action.oneById,
+      isLoading: false
+    }
+  }
+
+  if (action.type === successCreateErrorType) {
     return {
       ...state,
       oneById: action.oneById,
