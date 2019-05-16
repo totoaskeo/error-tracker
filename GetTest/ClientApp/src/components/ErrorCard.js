@@ -8,47 +8,55 @@ import { actionCreatorsCl } from '../store/Classifiers';
 import ErrorHistory from './ErrorHistory'
 
 const mergedActionCreators = {...actionCreators, ...actionCreatorsCl};
+const initialState = { isReadOnly: false,
+  error: {
+    shortDesc: '',
+    description: '',
+    priorityId: 1,
+    statusId: 1,
+    impactId: 1,
+    userId: JSON.parse(localStorage.getItem('user')).id,
+    errorHistory: [],
+    dateCreated: '' // later
+  }
+};
 
 class ErrorCard extends Component {
   constructor () {
     super();
     autoBind(this);
-    this.state = { isReadOnly: true,
-      error: {
-        shortDesc: '',
-        description: '',
-        priorityId: 1,
-        statusId: 1,
-        impactId: 1,
-        userId: JSON.parse(localStorage.getItem('user')).id,
-        errorHistory: [],
-        dateCreated: '' // later
-      }
-    };
+    this.state = initialState;
   }
 
-  componentDidMount () {
-    this.props.requestErrorById(this.props.match.params.id);
-    this.setState({ isReadOnly: !!this.props.error.id, error: { ...this.state.error, ...this.props.error } });
-    this.props.requestClassifiers();
+  componentDidUpdate (prevProps) {
+    if(prevProps.match.params.id !== this.props.match.params.id && !this.props.match.params.id) {
+      this.setState(initialState);
+    }
   }
 
-  handleChange (event) {
+  async componentDidMount () {
+    await this.props.requestErrorById(this.props.match.params.id);
+    await this.setState({ isReadOnly: false, error: { ...this.state.error, ...this.props.error } });
+    await this.props.requestClassifiers();
+  }
+
+  async handleChange (event) {
     const { name, value } = event.target;
     const error = { ...this.state.error, [name]: value };
-    this.setState({ error });
+    await this.setState({ error });
   }
 
   async handleSaveClick (event) {
     event.preventDefault();
     const dateCreated = new Date().toISOString().slice(0, 19).replace('T', ' ');
     await this.setState({ error: { ...this.state.error, dateCreated } });
-    console.log(this.state.error);
     if (this.state.isReadOnly) { // update
-      this.props.updateError(this.state.error);
+      await this.props.updateError(this.state.error);
     } else { // create
-      this.props.createError(this.state.error);
+      await this.props.createError(this.state.error);
     }
+    await this.setState({ error: { ...this.state.error, ...this.props.error } });
+    this.props.history.push(`error-card/${this.state.error.id}`);
   }
 
   render () {
@@ -56,10 +64,10 @@ class ErrorCard extends Component {
     return (
       <Row>
         <Col xs="5">
-          <div style={{ display: this.isReadOnly ? 'flex' : 'none' }}>
-            <Button className="mr-1" style={{ flex: '1 1'}}>Left</Button>
-            <Button className="mr-1" style={{ flex: '1 1'}}>Middle</Button>
-            <Button style={{ flex: '1 1'}}>Right</Button>
+          <div style={{ display: this.state.error.id ? 'flex' : 'none' }}>
+            <Button className="mr-1" style={{ flex: '1 1'}}>Открыть</Button>
+            <Button className="mr-1" style={{ flex: '1 1'}}>Решена</Button>
+            <Button style={{ flex: '1 1'}}>Закрыть</Button>
           </div>
           <Card className="mt-3">
             <CardBody>

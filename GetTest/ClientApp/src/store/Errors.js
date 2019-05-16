@@ -42,11 +42,16 @@ export const actionCreators = {
   },
   requestErrorById: id => async (dispatch, getState) => {
     dispatch({ type: requestErrorByIdType })
-    let oneById = { errorHistory: [] }
+    let oneById
     if (id) {
-      const url = `api/Errors${id}`;
-      const response = await fetch(url);
-      oneById = await response.json();
+      const url = `api/Errors/${id}`;
+      const options = {
+        headers: { ...authHeader() }
+      }
+      const response = await fetch(url, options);
+      if (response.ok) {
+        oneById = await response.json();
+      }
     }
     dispatch({ type: receiveErrorByIdType, oneById })
   },
@@ -60,7 +65,7 @@ export const actionCreators = {
     }
     const response = await fetch(url, options);
     const createdError = await response.json();
-    console.log(createdError)
+    console.log(createdError);
     if (response.ok) {
       dispatch({ type: successCreateErrorType, oneById: createdError });
     } else {
