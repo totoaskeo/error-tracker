@@ -5,6 +5,7 @@ import autoBind from 'react-autobind';
 import { Card, CardBody, CardTitle, FormGroup, Row, Col, Input, Button, ButtonGroup } from 'reactstrap';
 import { actionCreators } from '../store/Errors';
 import { actionCreatorsCl } from '../store/Classifiers';
+import format from 'date-fns/format';
 import ErrorHistory from './ErrorHistory'
 
 const mergedActionCreators = {...actionCreators, ...actionCreatorsCl};
@@ -81,7 +82,7 @@ class ErrorCard extends Component {
               ></Input>
               <Row className="mt-3">
                 <Col xs="5">
-                  <div>{this.state.error.dateCreated}</div>
+                  <div>{this.state.error.dateCreated ? format(this.state.error.dateCreated, 'DD.MM.YYYY HH:mm') : ''}</div>
                   <div>{this.state.error.user}</div>
                   <div className="mt-3">Статус: {this.state.error.status || 'Новая'}</div>
                 </Col>

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Table} from 'reactstrap';
+import format from 'date-fns/format';
 import Tablesort from 'tablesort';
 import { actionCreators } from '../store/Errors';
 
@@ -25,7 +26,7 @@ class ErrorHistory extends Component {
           <tbody>
             {this.props.errorHistory.map(eh =>
               <tr key={eh.id}>
-                <td>{eh.date}</td>
+                <td>{format(eh.date, 'DD.MM.YYYY HH:mm')}</td>
                 <td>{eh.action}</td>
                 <td>{eh.user}</td>
                 <td>{eh.comment}</td>

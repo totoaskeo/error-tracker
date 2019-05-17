@@ -3,6 +3,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Table } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import format from 'date-fns/format';
 import { actionCreators } from '../store/Errors';
 import Tablesort from 'tablesort';
 import ErrorListFilters from './ErrorListFilters'
@@ -47,7 +48,7 @@ class ErrorList extends Component {
             {this.state.errors.map(e =>
               <tr key={e.id}>
                 <td><Link to={`/error-card/${e.id}`}>{e.id}</Link></td>
-                <td>{e.dateCreated}</td>
+                <td>{format(e.dateCreated, 'DD.MM.YYYY HH:mm')}</td>
                 <td>{e.shortDesc}</td>
                 <td>{e.user}</td>
                 <td>{e.status}</td>
