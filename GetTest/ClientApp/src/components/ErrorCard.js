@@ -8,7 +8,7 @@ import { actionCreatorsCl } from '../store/Classifiers';
 import ErrorHistory from './ErrorHistory'
 
 const mergedActionCreators = {...actionCreators, ...actionCreatorsCl};
-const initialState = { isReadOnly: false,
+const initialState = { isReadOnly: true,
   error: {
     shortDesc: '',
     description: '',
@@ -51,12 +51,13 @@ class ErrorCard extends Component {
     const dateCreated = new Date().toISOString().slice(0, 19).replace('T', ' ');
     await this.setState({ error: { ...this.state.error, dateCreated } });
     if (this.state.isReadOnly) { // update
+      console.log(this.state.error);
       await this.props.updateError(this.state.error);
     } else { // create
       await this.props.createError(this.state.error);
+      this.props.history.push(`error-card/${this.state.error.id}`);
     }
     await this.setState({ error: { ...this.state.error, ...this.props.error } });
-    this.props.history.push(`error-card/${this.state.error.id}`);
   }
 
   render () {

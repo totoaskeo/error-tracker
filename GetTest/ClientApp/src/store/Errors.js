@@ -70,6 +70,22 @@ export const actionCreators = {
     } else {
       dispatch({ type: failureCreateErrorType });
     }
+  },
+  updateError: error => async dispatch => {
+    dispatch({ type: requestUpdateErrorType });
+    const url = `api/Errors/${error.id}`;
+    const options = {
+      method: 'PUT',
+      headers: { ...authHeader(), 'Content-Type': 'application/json' },
+      body: JSON.stringify(error)
+    }
+    const response = await fetch(url, options);
+    console.log(response);
+    if (response.ok) {
+      dispatch({ type: successUpdateErrorType });
+    } else {
+      dispatch({ type: failureUpdateErrorType });
+    }
   }
 };
 

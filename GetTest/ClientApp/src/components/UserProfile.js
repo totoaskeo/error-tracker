@@ -10,14 +10,28 @@ class UserProfile extends Component {
     super();
     autoBind(this);
     this.state = {
-      login: '',
-      name: '',
-      surname: '',
+      user: {
+        login: '',
+        name: '',
+        surname: ''
+      }
     }
   }
+  
+  async componentDidMount () {
+    await this.props.requestUsers();
+    await this.setState({ user: this.props.user });
+  }
+  
+  handleChange (event) {
+    const user = { ...this.state.user, [event.target.name]: event.target.value };
+    this.setState({ user });
+  }
 
-  componentDidMount () {
-    this.props.requestUsers();
+  async editUser (event) {
+    event.preventDefault();
+    console.log(this.state.user);
+    await this.props.updateUser(this.state.user);
   }
 
   render () {
@@ -29,17 +43,17 @@ class UserProfile extends Component {
             <Form>
               <FormGroup>
                 <Label>Логин</Label>
-                <Input></Input>
+                <Input onChange={this.handleChange} name="login" value={this.state.user.login} disabled></Input>
               </FormGroup>
               <FormGroup>
                 <Label>Имя</Label>
-                <Input></Input>
+                <Input onChange={this.handleChange} name="name" value={this.state.user.name}></Input>
               </FormGroup>
               <FormGroup>
                 <Label>Фамилия</Label>
-                <Input></Input>
+                <Input onChange={this.handleChange} name="surname" value={this.state.user.surname}></Input>
               </FormGroup>
-              <Button>Сохранить</Button>
+              <Button onClick={this.editUser}>Сохранить</Button>
             </Form>
           </Col>
         </Row>

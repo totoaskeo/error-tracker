@@ -81,18 +81,21 @@ export const actionCreators = {
   logoutUser: () => async dispatch => {
     dispatch({ type: logoutUserType });
   },
-  updateUser: (id, user) => async (dispatch, getState) => {
+  updateUser: user => async (dispatch, getState) => {
     dispatch({ type: requestUpdateUserType });
-    const url = `api/Users/${id}`
+    const url = `api/Users/${user.id}`;
     const options = {
       method: 'PUT',
+      headers: { ...authHeader(), 'Content-Type': 'application/json' },
       body: JSON.stringify(user)
     }
     const response = await fetch(url, options);
+    console.log(response);
     let msg = '';
     if (response.ok) {
       msg = 'Данные пользователя обновлены';
       dispatch({ type: successUpdateUserType, msg });
+      localStorage.setItem('user', JSON.stringify(user));
     } else {
       msg = await response.text()
       dispatch({ type: failureUpdateUserType, msg })
