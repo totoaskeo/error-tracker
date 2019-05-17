@@ -15,17 +15,23 @@ class ErrorList extends Component {
     }
   }
 
-  componentDidMount () {
+  async componentDidMount () {
     new Tablesort(document.getElementById('errList'));
-    this.props.requestErrorList();
-    this.setState({ errors: this.props.errors });
+    await this.props.requestErrorList();
+    await this.setState({ errors: this.props.errors });
+  }
+
+  async shouldComponentUpdate (nextProps, nextState) {
+    if (nextState.errors.length !== this.state.errors.length) {
+      await this.props.requestErrorList();
+      await this.setState({ errors: this.props.errors });
+    }
   }
 
   render () {
     return (
       <div>
-        <ErrorListFilters></ErrorListFilters>
-        <Table className="mt-5" responsive id="errList">
+        <Table className="mt-1" responsive id="errList">
           <thead>
             <tr>
               <th>Номер</th>

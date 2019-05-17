@@ -41,7 +41,7 @@ class NavMenu extends React.Component {
                     <NavLink tag={Link} className="text-dark" to="/list">Просмотр ошибок</NavLink>
                   </NavItem>
                   <NavItem>
-                    <NavLink tag={Link} className="text-dark" to="/profile">{this.props.user.login}</NavLink>
+                    <NavLink tag={Link} className="text-dark" to={`/user/${this.props.user.id}`}>{this.props.user.login}</NavLink>
                   </NavItem>
                 </ul>
               ) : ( // unauthorized navs

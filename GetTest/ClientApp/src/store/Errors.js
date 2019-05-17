@@ -24,21 +24,20 @@ export const actionCreators = {
     const params = {
       statusId, impactId, priorityId, dateFrom, dateTo
     }
-
-    if (Object.keys(params).every(key => params[key] === getState().errors.params[key])) {
-      return; // duplicate request
-    }
+    // if (Object.keys(params).every(key => params[key] === getState().errors.params[key])) {
+    //   return; // duplicate request
+    // }
     
     dispatch({ type: requestErrorListType });
-
-    const errorList = [
-    ]
-
-    // const url = `api/Errors/startDateIndex=${startDateIndex}`;
-    // const response = await fetch(url);
-    // const forecasts = await response.json();
-
-    dispatch({ type: receiveErrorListType, errorList, params });
+    const url = `api/Errors`;
+    const options = {
+      headers: { ...authHeader() }
+    }
+    const response = await fetch(url, options);
+    if (response.ok) {
+      const errorList = await response.json();
+      dispatch({ type: receiveErrorListType, errorList, params });
+    }
   },
   requestErrorById: id => async (dispatch, getState) => {
     dispatch({ type: requestErrorByIdType })
