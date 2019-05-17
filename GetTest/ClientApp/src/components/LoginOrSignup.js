@@ -18,9 +18,12 @@ class LoginOrSignup extends Component {
     }
   }
 
-  handleLogin (event) {
+  async handleLogin (event) {
     event.preventDefault();
-    this.props.loginUser(this.state.login, this.state.password);
+    await this.props.loginUser(this.state.login, this.state.password);
+    if (this.props.user.token) {
+      this.props.history.push('/');
+    }
   }
 
   handleSignup (event) {
@@ -102,6 +105,6 @@ class LoginOrSignup extends Component {
 }
 
 export default connect(
-  null,
+  state => ({ user: state.users.user }),
   dispatch => bindActionCreators(actionCreators, dispatch)
 )(LoginOrSignup);

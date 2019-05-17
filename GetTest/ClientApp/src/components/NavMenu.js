@@ -2,7 +2,7 @@ import React from 'react';
 import autoBind from 'react-autobind';
 import { connect } from 'react-redux';
 import { Collapse, Container, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink, DropdownItem, DropdownMenu, Dropdown, DropdownToggle } from 'reactstrap';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { actionCreators } from '../store/Users';
 import './NavMenu.css';
 import { bindActionCreators } from 'redux';
@@ -17,7 +17,7 @@ class NavMenu extends React.Component {
     };
   }
 
-  toggle () {
+  toggleCollapse () {
     this.setState({
       isOpen: !this.state.isOpen
     });
@@ -32,6 +32,7 @@ class NavMenu extends React.Component {
   logout () {
     localStorage.removeItem('user');
     this.props.logoutUser();
+    this.props.history.push('/');
   }
 
   render () {
@@ -40,7 +41,7 @@ class NavMenu extends React.Component {
         <Navbar className="navbar-expand-sm navbar-toggleable-sm border-bottom box-shadow mb-3" light >
           <Container>
             <NavbarBrand tag={Link} to="/">ErrorTrackerApp</NavbarBrand>
-            <NavbarToggler onClick={this.toggle} className="mr-2" />
+            <NavbarToggler onClick={this.toggleCollapse} className="mr-2" />
             <Collapse className="d-sm-inline-flex flex-sm-row-reverse" isOpen={this.state.isOpen} navbar>
               {this.props.user.token ? ( // authorized navs
                 <ul className="navbar-nav flex-grow">
@@ -83,7 +84,7 @@ class NavMenu extends React.Component {
   }
 }
 
-export default connect(
+export default withRouter(connect(
   state => ({ user: state.users.user }),
   dispatch => bindActionCreators(actionCreators, dispatch)
-)(NavMenu);
+)(NavMenu));

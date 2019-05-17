@@ -9,25 +9,15 @@ class UserProfile extends Component {
   constructor () {
     super();
     autoBind(this);
-    this.state = { pwdResetText: 'Cменить пароль' }
+    this.state = {
+      login: '',
+      name: '',
+      surname: '',
+    }
   }
 
   componentDidMount () {
     this.props.requestUsers();
-  }
-
-  showPasswordReset (event) {
-    event.preventDefault();
-    document.querySelectorAll('.pwdReset').forEach(el => {
-      el.style.display = 'block';
-    })
-    if (this.state.pwdResetText === 'Сменить пароль') {
-      this.setState(state => {
-        state.pwdResetText = 'Отменить смену пароля'
-      })
-    } else {
-      this.pwdResetText = 'Сменить пароль';
-    }
   }
 
   render () {
@@ -39,7 +29,6 @@ class UserProfile extends Component {
             <Form>
               <FormGroup>
                 <Label>Логин</Label>
-                <span className="float-right"><a href="" onClick={this.showPasswordReset}>{this.state.pwdResetText}</a></span>
                 <Input></Input>
               </FormGroup>
               <FormGroup>
@@ -49,14 +38,6 @@ class UserProfile extends Component {
               <FormGroup>
                 <Label>Фамилия</Label>
                 <Input></Input>
-              </FormGroup>
-              <FormGroup className="pwdReset" style={{ display: 'none' }}>
-                <Label>Новый пароль</Label>
-                <Input type="password"></Input>
-              </FormGroup>
-              <FormGroup className="pwdReset" style={{ display: 'none' }}>
-                <Label>Подтверждение пароля</Label>
-                <Input type="password"></Input>
               </FormGroup>
               <Button>Сохранить</Button>
             </Form>
