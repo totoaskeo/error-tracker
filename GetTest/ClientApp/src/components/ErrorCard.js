@@ -15,7 +15,7 @@ const initialState = { isReadOnly: false,
     priorityId: 1,
     statusId: 1,
     impactId: 1,
-    userId: JSON.parse(localStorage.getItem('user')).id,
+    userId: localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')).id : '',
     errorHistory: [],
     dateCreated: '' // later
   }

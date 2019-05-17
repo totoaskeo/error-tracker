@@ -1,23 +1,39 @@
 import React from 'react';
+import autoBind from 'react-autobind';
 import { connect } from 'react-redux';
-import { Collapse, Container, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink } from 'reactstrap';
+import { Collapse, Container, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink, DropdownItem, DropdownMenu, Dropdown, DropdownToggle } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import { actionCreators } from '../store/Users';
 import './NavMenu.css';
+import { bindActionCreators } from 'redux';
 
 class NavMenu extends React.Component {
   constructor (props) {
     super(props);
-
-    this.toggle = this.toggle.bind(this);
+    autoBind(this);
     this.state = {
-      isOpen: false
+      isOpen: false,
+      dropdownOpen: false
     };
   }
+
   toggle () {
     this.setState({
       isOpen: !this.state.isOpen
     });
   }
+
+  toggleDropdown () {
+    this.setState({
+      dropdownOpen: !this.state.dropdownOpen
+    });
+  }
+
+  logout () {
+    localStorage.removeItem('user');
+    this.props.logoutUser();
+  }
+
   render () {
     return (
       <header>
@@ -40,9 +56,14 @@ class NavMenu extends React.Component {
                   <NavItem>
                     <NavLink tag={Link} className="text-dark" to="/list">Просмотр ошибок</NavLink>
                   </NavItem>
-                  <NavItem>
-                    <NavLink tag={Link} className="text-dark" to={`/user/${this.props.user.id}`}>{this.props.user.login}</NavLink>
-                  </NavItem>
+                  <Dropdown nav isOpen={this.state.dropdownOpen} toggle={this.toggleDropdown}>
+                    <DropdownToggle nav caret>{this.props.user.login}</DropdownToggle>
+                    <DropdownMenu>
+                      <DropdownItem tag={Link} to={`/user/${this.props.user.id}`}>Профиль</DropdownItem>
+                      <DropdownItem divider />
+                      <DropdownItem onClick={this.logout}>Выйти</DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
                 </ul>
               ) : ( // unauthorized navs
                 <ul className="navbar-nav flex-grow">
@@ -64,5 +85,5 @@ class NavMenu extends React.Component {
 
 export default connect(
   state => ({ user: state.users.user }),
-  null
+  dispatch => bindActionCreators(actionCreators, dispatch)
 )(NavMenu);

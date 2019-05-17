@@ -1,3 +1,5 @@
+import { authHeader } from '../helpers/authHeader';
+
 const requestUserRegistrationType = 'REQUEST_USER_REGISTRATION';
 const requestUserLoginType = 'REQUEST_USER_LOGIN';
 const requestUserByIdType = 'REQUEST_USER_BY_ID';
@@ -14,6 +16,7 @@ const failureUpdateUserType = 'FAILURE_UPDATE_USER';
 
 const receiveUserByIdType = 'RECEIVE_USER_BY_ID';
 const receiveUsersType = 'RECEIVE_USERS';
+const logoutUserType = 'LOGOUT_USER';
 
 const initialState = { user: JSON.parse(localStorage.getItem('user')) || {}, msg: '', isLoading: false, list: [] };
 
@@ -28,9 +31,15 @@ export const actionCreators = {
   requestUsers: () => async (dispatch, getState) => {
     dispatch({ type: requestUsersType });
     const url = `api/Users`;
-    const response = await fetch(url);
-    const userList = await response.json();
-    dispatch({ type: receiveUsersType, userList});
+    const options = { headers: { ...authHeader() } };
+    console.log(options)
+    const response = await fetch(url, options);
+    console.log(response);
+    if (response.ok) {
+      const userList = await response.json();
+      console.log(userList);
+      dispatch({ type: receiveUsersType, userList});
+    }
   },
   registerUser: user => async (dispatch, getState) => {
     dispatch({ type: requestUserRegistrationType });
@@ -68,6 +77,9 @@ export const actionCreators = {
       msg = await response.text()
       dispatch({ type: failureUserLoginType, msg })
     }
+  },
+  logoutUser: () => async dispatch => {
+    dispatch({ type: logoutUserType });
   },
   updateUser: (id, user) => async (dispatch, getState) => {
     dispatch({ type: requestUpdateUserType });
@@ -143,6 +155,13 @@ export const reducer = (state, action) => {
       ...state,
       isLoading: false,
       msg: action.msg
+    }
+  }
+
+  if (action.type === logoutUserType) {
+    return {
+      ...state,
+      user: {}
     }
   }
 

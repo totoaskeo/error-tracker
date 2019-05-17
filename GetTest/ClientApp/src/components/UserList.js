@@ -5,8 +5,16 @@ import { Table } from 'reactstrap';
 import { actionCreators } from '../store/Users';
 
 class UserList extends Component {
-  componentDidMount () {
-    this.props.requestUsers();
+  constructor () {
+    super();
+    this.state = {
+      users: []
+    }
+  }
+
+  async componentDidMount () {
+    await this.props.requestUsers();
+    await this.setState({ users: this.props.users });
   }
 
   render () {
@@ -22,7 +30,7 @@ class UserList extends Component {
             </tr>
           </thead>
           <tbody>
-            {this.props.users.map(u =>
+            {this.state.users.map(u =>
               <tr key={u.id}>
                 <td>{u.login}</td>
                 <td>{u.name}</td>
