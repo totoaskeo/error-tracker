@@ -27,7 +27,7 @@ class ErrorHistory extends Component {
             {this.props.errorHistory.map(eh =>
               <tr key={eh.id}>
                 <td>{format(eh.date, 'DD.MM.YYYY HH:mm')}</td>
-                <td>{eh.action}</td>
+                <td>{eh.action.name}</td>
                 <td>{eh.user}</td>
                 <td>{eh.comment}</td>
               </tr>

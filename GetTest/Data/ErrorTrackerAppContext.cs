@@ -48,7 +48,6 @@ namespace ErrorTrackerApp.Models
         }
 
         #region ActualData
-        public DbSet<User> User { get; set; }
         public DbSet<Error> Error { get; set; }
         public DbSet<ErrorHistory> ErrorHistory { get; set; }
         #endregion

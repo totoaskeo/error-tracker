@@ -63,6 +63,10 @@ namespace ErrorTrackerApp.Controllers {
         // POST: api/Errors
         [HttpPost]
         public async Task<ActionResult<Error>> PostError(Error error) {
+            error.Status = _context.Status.SingleOrDefault(s => s.Id == error.StatusId);
+            error.Priority = _context.Priority.SingleOrDefault(p => p.Id == error.PriorityId);
+            error.Impact = _context.Impact.SingleOrDefault(i => i.Id == error.ImpactId);
+            error.User = _context.Users.SingleOrDefault(u => u.Id == error.UserId);
             _context.Error.Add(error);
             var errorHistory = new ErrorHistory
             {

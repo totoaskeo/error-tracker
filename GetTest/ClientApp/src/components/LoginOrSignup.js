@@ -26,13 +26,13 @@ class LoginOrSignup extends Component {
     }
   }
 
-  handleSignup (event) {
+  async handleSignup (event) {
+    event.preventDefault();
     if (this.state.confirmPassword !== this.state.password) {
       // TODO show validation message
       return;
     }
-    this.props.registerUser(this.state);
-    event.preventDefault()
+    await this.props.registerUser(this.state);
   }
 
   handleChange (event) {

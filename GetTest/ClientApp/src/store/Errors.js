@@ -50,11 +50,13 @@ export const actionCreators = {
       const response = await fetch(url, options);
       if (response.ok) {
         oneById = await response.json();
+        console.log(oneById);
       }
     }
     dispatch({ type: receiveErrorByIdType, oneById })
   },
   createError: error => async (dispatch, getState) => {
+    console.log(error);
     dispatch({ type: requestCreateErrorType });
     const url = `api/Errors`;
     const options = {

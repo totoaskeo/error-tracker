@@ -16,6 +16,8 @@ const initialState = { isReadOnly: true,
     priorityId: 1,
     statusId: 1,
     impactId: 1,
+    status: {},
+    
     userId: localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')).id : '',
     errorHistory: [],
     dateCreated: '' // later
@@ -84,7 +86,7 @@ class ErrorCard extends Component {
                 <Col xs="5">
                   <div>{this.state.error.dateCreated ? format(this.state.error.dateCreated, 'DD.MM.YYYY HH:mm') : ''}</div>
                   <div>{this.state.error.user}</div>
-                  <div className="mt-3">Статус: {this.state.error.status || 'Новая'}</div>
+                  <div className="mt-3">Статус: {this.state.error.status.name || 'Новая'}</div>
                 </Col>
                 <Col xs="7">
                   <FormGroup>
