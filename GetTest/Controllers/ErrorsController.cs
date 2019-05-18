@@ -80,6 +80,7 @@ namespace ErrorTrackerApp.Controllers {
             error.Priority = _context.Priority.SingleOrDefault(p => p.Id == error.PriorityId);
             error.Impact = _context.Impact.SingleOrDefault(i => i.Id == error.ImpactId);
             error.User = _context.Users.SingleOrDefault(u => u.Id == error.UserId);
+            error.DateCreated = DateTime.Now;
             _context.Error.Add(error);
             var errorHistory = new ErrorHistory
             {

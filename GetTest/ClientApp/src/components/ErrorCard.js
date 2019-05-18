@@ -5,11 +5,11 @@ import autoBind from 'react-autobind';
 import { Card, CardBody, CardTitle, FormGroup, Row, Col, Input, Button } from 'reactstrap';
 import { actionCreators } from '../store/Errors';
 import { actionCreatorsCl } from '../store/Classifiers';
-import format from 'date-fns/format';
+import { format, parse } from 'date-fns';
 import ErrorHistory from './ErrorHistory'
 
 const mergedActionCreators = {...actionCreators, ...actionCreatorsCl};
-const initialState = { isReadOnly: true,
+const initialState = { mode: '',
   error: {
     shortDesc: '',
     description: '',
@@ -31,15 +31,22 @@ class ErrorCard extends Component {
     this.state = initialState;
   }
 
-  componentDidUpdate (prevProps) {
-    if(prevProps.match.params.id !== this.props.match.params.id && !this.props.match.params.id) {
-      this.setState(initialState);
+  async componentDidUpdate (prevProps) {
+    if (prevProps.match.params.id !== this.props.match.params.id && !this.props.match.params.id) {
+      await this.setState(initialState);
     }
+  }
+
+  mode () {
+    return this.props.match.params.id ? 'edit' : 'create';
   }
 
   async componentDidMount () {
     await this.props.requestErrorById(this.props.match.params.id);
-    await this.setState({ isReadOnly: false, error: { ...this.state.error, ...this.props.error } });
+    await this.setState({
+      mode: this.mode(),
+      error: { ...this.state.error, ...this.props.error }
+    });
     await this.props.requestClassifiers();
   }
 
@@ -51,16 +58,16 @@ class ErrorCard extends Component {
 
   async handleSaveClick (event) {
     event.preventDefault();
-    if (!this.state.isReadOnly) { // update
+    if (this.state.mode === 'edit') { // update
       await this.props.updateError(this.state.error);
-      await this.props.requestErrorById(this.props.match.params.id);
+      await this.props.requestErrorById(this.props.error.id);
     } else { // create
-      const dateCreated = new Date().toISOString().slice(0, 19).replace('T', ' ');
+      const dateCreated = parse(new Date());
       await this.setState({ error: { ...this.state.error, dateCreated } });
       await this.props.createError(this.state.error);
       this.props.history.push(`error-card/${this.props.error.id}`);
     }
-    await this.setState({ error: { ...this.state.error, ...this.props.error } });
+    await this.setState({ mode: this.mode(), error: { ...this.state.error, ...this.props.error } });
   }
 
   render () {
@@ -68,7 +75,7 @@ class ErrorCard extends Component {
     return (
       <Row>
         <Col xs="5">
-          <div style={{ display: this.state.error.id ? 'flex' : 'none' }}>
+          <div style={{ display: this.state.mode === 'edit' ? 'flex' : 'none' }}>
             <Button className="mr-1" style={{ flex: '1 1'}}>Открыть</Button>
             <Button className="mr-1" style={{ flex: '1 1'}}>Решена</Button>
             <Button style={{ flex: '1 1'}}>Закрыть</Button>
@@ -77,20 +84,20 @@ class ErrorCard extends Component {
             <CardBody>
               <CardTitle>
                 <p>Ошибка {errNum}</p>
-                <Input value={this.state.error.shortDesc} onChange={this.handleChange} {... { disabled: this.state.isReadOnly } } name="shortDesc"></Input>
+                <Input value={this.state.error.shortDesc} onChange={this.handleChange} name="shortDesc"></Input>
               </CardTitle>
-              <Input type="textarea" rows="7" value={this.state.error.description} onChange={this.handleChange}
-                {... { disabled: this.state.isReadOnly } } name="description"
-              ></Input>
+              <Input type="textarea" rows="7" value={this.state.error.description}
+                onChange={this.handleChange} name="description">
+              </Input>
               <Row className="mt-3">
                 <Col xs="5">
-                  <div>{this.state.error.dateCreated ? format(this.state.error.dateCreated, 'DD.MM.YYYY HH:mm') : ''}</div>
+                  <div>{this.state.error.dateCreated ? format(parse(this.state.error.dateCreated), 'DD.MM.YYYY HH:mm') : ''}</div>
                   <div>{this.state.error.user.login}</div>
                   <div className="mt-3">Статус: {this.state.error.status.name || 'Новая'}</div>
                 </Col>
                 <Col xs="7">
                   <FormGroup>
-                    <Input type="select" {... { disabled: this.state.isReadOnly } } onChange={this.handleChange}
+                    <Input type="select" onChange={this.handleChange}
                       value={this.state.error.priorityId} name="priorityId"
                     >
                       {this.props.classifiers.priorities.map(p =>
@@ -99,7 +106,7 @@ class ErrorCard extends Component {
                     </Input>
                   </FormGroup>
                   <FormGroup>
-                    <Input type="select" {... { disabled: this.state.isReadOnly } } onChange={this.handleChange}
+                    <Input type="select" onChange={this.handleChange}
                       value={this.state.error.impactId} name="impactId"
                     >
                       {this.props.classifiers.impacts.map(p =>
