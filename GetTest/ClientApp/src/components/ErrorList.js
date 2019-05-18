@@ -44,22 +44,30 @@ class ErrorList extends Component {
               <th>Критичность</th>
             </tr>
           </thead>
-          <tbody>
-            {this.state.errors.map(e =>
-              <tr key={e.id}>
-                <td><Link to={`/error-card/${e.id}`}>{e.id}</Link></td>
-                <td>{format(e.dateCreated, 'DD.MM.YYYY HH:mm')}</td>
-                <td>{e.shortDesc}</td>
-                <td>{e.user}</td>
-                <td>{e.status}</td>
-                <td>{e.priority}</td>
-                <td>{e.impact}</td>
-              </tr>
-            )}
-          </tbody>
+          {this.renderTBody()}
         </Table>
       </div>
     )
+  }
+
+  renderTBody () {
+    if (this.state.errors.length) {
+      return (
+        <tbody>
+          {this.state.errors.map(e =>
+            <tr key={e.id}>
+              <td><Link to={`/error-card/${e.id}`}>{e.id}</Link></td>
+              <td>{format(e.dateCreated, 'DD.MM.YYYY HH:mm')}</td>
+              <td>{e.shortDesc}</td>
+              <td>{e.user.login}</td>
+              <td>{e.status.name}</td>
+              <td>{e.priority.name}</td>
+              <td>{e.impact.name}</td>
+            </tr>
+          )}
+        </tbody>
+      )
+    } else return null;
   }
 }
 

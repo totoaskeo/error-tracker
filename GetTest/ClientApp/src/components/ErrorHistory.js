@@ -28,7 +28,7 @@ class ErrorHistory extends Component {
               <tr key={eh.id}>
                 <td>{format(eh.date, 'DD.MM.YYYY HH:mm')}</td>
                 <td>{eh.action.name}</td>
-                <td>{eh.user}</td>
+                <td>{eh.user.login}</td>
                 <td>{eh.comment}</td>
               </tr>
             )}

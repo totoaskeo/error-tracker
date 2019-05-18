@@ -36,6 +36,7 @@ export const actionCreators = {
     const response = await fetch(url, options);
     if (response.ok) {
       const errorList = await response.json();
+      console.log(errorList)
       dispatch({ type: receiveErrorListType, errorList, params });
     }
   },
@@ -81,6 +82,7 @@ export const actionCreators = {
       headers: { ...authHeader(), 'Content-Type': 'application/json' },
       body: JSON.stringify(error)
     }
+    console.log(error);
     const response = await fetch(url, options);
     console.log(response);
     if (response.ok) {

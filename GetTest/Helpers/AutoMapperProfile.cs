@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using ErrorTracker.Dtos;
 using ErrorTrackerApp.Dtos;
 using ErrorTrackerApp.Models;
 
@@ -10,6 +11,10 @@ namespace WebApi.Helpers
         {
             CreateMap<User, UserDto>();
             CreateMap<UserDto, User>();
+            CreateMap<Error, ErrorDto>();
+            CreateMap<ErrorDto, Error>();
+            CreateMap<ErrorHistory, ErrorHistoryDto>();
+            CreateMap<ErrorHistoryDto, ErrorHistory>();
         }
     }
 }

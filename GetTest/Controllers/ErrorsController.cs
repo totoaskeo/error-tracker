@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ErrorTrackerApp.Models;
 using Microsoft.AspNetCore.Authorization;
+using ErrorTrackerApp.Dtos;
+using AutoMapper;
 
 namespace ErrorTrackerApp.Controllers {
     [Route("api/[controller]")]
@@ -14,15 +16,19 @@ namespace ErrorTrackerApp.Controllers {
     [Authorize]
     public class ErrorsController : ControllerBase {
         private readonly ErrorTrackerAppContext _context;
+        private IMapper _mapper;
 
-        public ErrorsController(ErrorTrackerAppContext context) {
+        public ErrorsController(ErrorTrackerAppContext context, IMapper mapper) {
             _context = context;
+            _mapper = mapper;
         }
 
         // GET: api/Errors
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Error>>> GetError() {
-            return await _context.Error.ToListAsync();
+        public async Task<ActionResult<IEnumerable<ErrorDto>>> GetError() {
+            var errors = await _context.Error.ToListAsync();
+            var errorDtos = _mapper.Map<IList<Error>, IList<ErrorDto>>(errors);
+            return errorDtos.ToList();
         }
 
         // GET: api/Errors/5
@@ -39,12 +45,18 @@ namespace ErrorTrackerApp.Controllers {
 
         // PUT: api/Errors/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutError(int id, Error error) {
+        public async Task<IActionResult> PutError(int id, ErrorDto errorDto) {
+            var error = _mapper.Map<Error>(errorDto);
+            
             if (id != error.Id) {
                 return BadRequest();
             }
 
-            _context.Entry(error).State = EntityState.Modified;
+            var entry = _context.Entry(error);
+            entry.Property(e => e.ShortDesc).IsModified = true;
+            entry.Property(e => e.Description).IsModified = true;
+            entry.Property(e => e.PriorityId).IsModified = true;
+            entry.Property(e => e.ImpactId).IsModified = true;
 
             try {
                 await _context.SaveChangesAsync();
@@ -62,7 +74,8 @@ namespace ErrorTrackerApp.Controllers {
 
         // POST: api/Errors
         [HttpPost]
-        public async Task<ActionResult<Error>> PostError(Error error) {
+        public async Task<ActionResult<Error>> PostError([FromBody]ErrorDto errorDto) {
+            Error error = _mapper.Map<Error>(errorDto);
             error.Status = _context.Status.SingleOrDefault(s => s.Id == error.StatusId);
             error.Priority = _context.Priority.SingleOrDefault(p => p.Id == error.PriorityId);
             error.Impact = _context.Impact.SingleOrDefault(i => i.Id == error.ImpactId);
@@ -78,8 +91,9 @@ namespace ErrorTrackerApp.Controllers {
             };
             _context.ErrorHistory.Add(errorHistory);
             await _context.SaveChangesAsync();
-            
-            return CreatedAtAction("GetError", new { id = error.Id }, error);
+
+            var err = _mapper.Map<ErrorDto>(error);
+            return CreatedAtAction("GetError", new { id = error.Id }, err);
         }
 
         // DELETE: api/Errors/5

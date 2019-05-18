@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import autoBind from 'react-autobind';
-import { Card, CardBody, CardTitle, FormGroup, Row, Col, Input, Button, ButtonGroup } from 'reactstrap';
+import { Card, CardBody, CardTitle, FormGroup, Row, Col, Input, Button } from 'reactstrap';
 import { actionCreators } from '../store/Errors';
 import { actionCreatorsCl } from '../store/Classifiers';
 import format from 'date-fns/format';
@@ -16,8 +16,8 @@ const initialState = { isReadOnly: true,
     priorityId: 1,
     statusId: 1,
     impactId: 1,
+    user: {},
     status: {},
-    
     userId: localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')).id : '',
     errorHistory: [],
     dateCreated: '' // later
@@ -51,14 +51,14 @@ class ErrorCard extends Component {
 
   async handleSaveClick (event) {
     event.preventDefault();
-    const dateCreated = new Date().toISOString().slice(0, 19).replace('T', ' ');
-    await this.setState({ error: { ...this.state.error, dateCreated } });
-    if (this.state.isReadOnly) { // update
-      console.log(this.state.error);
+    if (!this.state.isReadOnly) { // update
       await this.props.updateError(this.state.error);
+      await this.props.requestErrorById(this.props.match.params.id);
     } else { // create
+      const dateCreated = new Date().toISOString().slice(0, 19).replace('T', ' ');
+      await this.setState({ error: { ...this.state.error, dateCreated } });
       await this.props.createError(this.state.error);
-      this.props.history.push(`error-card/${this.state.error.id}`);
+      this.props.history.push(`error-card/${this.props.error.id}`);
     }
     await this.setState({ error: { ...this.state.error, ...this.props.error } });
   }
@@ -79,13 +79,13 @@ class ErrorCard extends Component {
                 <p>Ошибка {errNum}</p>
                 <Input value={this.state.error.shortDesc} onChange={this.handleChange} {... { disabled: this.state.isReadOnly } } name="shortDesc"></Input>
               </CardTitle>
-              <Input type="textarea" rows="10" value={this.state.error.description} onChange={this.handleChange}
+              <Input type="textarea" rows="7" value={this.state.error.description} onChange={this.handleChange}
                 {... { disabled: this.state.isReadOnly } } name="description"
               ></Input>
               <Row className="mt-3">
                 <Col xs="5">
                   <div>{this.state.error.dateCreated ? format(this.state.error.dateCreated, 'DD.MM.YYYY HH:mm') : ''}</div>
-                  <div>{this.state.error.user}</div>
+                  <div>{this.state.error.user.login}</div>
                   <div className="mt-3">Статус: {this.state.error.status.name || 'Новая'}</div>
                 </Col>
                 <Col xs="7">

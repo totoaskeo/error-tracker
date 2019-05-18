@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 namespace ErrorTrackerApp.Models {
     [Table("Error")]
     public class Error {
-        protected Error() { }
         public int Id { get; set; }
         public DateTime DateCreated { get; set; }
         public string ShortDesc { get; set; }
