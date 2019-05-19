@@ -9,6 +9,7 @@ using ErrorTrackerApp.Models;
 using Microsoft.AspNetCore.Authorization;
 using ErrorTrackerApp.Dtos;
 using AutoMapper;
+using ErrorTracker.Constants;
 
 namespace ErrorTrackerApp.Controllers {
     [Route("api/[controller]")]
@@ -46,10 +47,55 @@ namespace ErrorTrackerApp.Controllers {
         // PUT: api/Errors/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutError(int id, ErrorDto errorDto) {
+            var errorBf = _context.Error.SingleOrDefault(e => e.Id == id);
+            var prevStatus = errorBf.Status;
             var error = _mapper.Map<Error>(errorDto);
+            var status = _context.Status.SingleOrDefault(s => s.Id == errorDto.StatusId);
             
             if (id != error.Id) {
                 return BadRequest();
+            }
+
+            var action = new Models.Action();
+            // check statuses
+            if (prevStatus.Name != status.Name) {
+                if (prevStatus.Name == ErrorStatusTypes.New &&
+                    status.Name != ErrorStatusTypes.Opened) {
+                    return BadRequest();
+                }
+                if (prevStatus.Name == ErrorStatusTypes.Opened &&
+                    status.Name != ErrorStatusTypes.Solved) {
+                    return BadRequest();
+                }
+                if (prevStatus.Name == ErrorStatusTypes.Solved &&
+                    (status.Name != ErrorStatusTypes.Opened &&
+                        status.Name != ErrorStatusTypes.Closed)) {
+                    return BadRequest();
+                }
+                if (prevStatus.Name == ErrorStatusTypes.Closed) {
+                    return BadRequest();
+                }
+
+                if (status.Name == ErrorStatusTypes.Opened) {
+                    action = _context.Action.SingleOrDefault(a => a.Name == "Открытие");
+                }
+                if (status.Name == ErrorStatusTypes.Solved) {
+                    action = _context.Action.SingleOrDefault(a => a.Name == "Решение");
+                }
+                if (status.Name == ErrorStatusTypes.Closed) {
+                    action = _context.Action.SingleOrDefault(a => a.Name == "Закрытие");
+                }
+
+                // all good
+                var errorHistory = new ErrorHistory {
+                    Error = error,
+                    Action = action,
+                    Comment = error.ErrorHistory.ToList()[error.ErrorHistory.Count - 1].Comment,
+                    User = _context.Users.SingleOrDefault(u => u.Id == errorDto.UserId),
+                    Date = DateTime.Now
+                };
+
+                _context.ErrorHistory.Add(errorHistory);
             }
 
             var entry = _context.Entry(error);
@@ -57,6 +103,7 @@ namespace ErrorTrackerApp.Controllers {
             entry.Property(e => e.Description).IsModified = true;
             entry.Property(e => e.PriorityId).IsModified = true;
             entry.Property(e => e.ImpactId).IsModified = true;
+            entry.Property(e => e.StatusId).IsModified = true;
 
             try {
                 await _context.SaveChangesAsync();
@@ -71,7 +118,7 @@ namespace ErrorTrackerApp.Controllers {
 
             return NoContent();
         }
-
+        
         // POST: api/Errors
         [HttpPost]
         public async Task<ActionResult<Error>> PostError([FromBody]ErrorDto errorDto) {

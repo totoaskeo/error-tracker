@@ -51,7 +51,6 @@ export const actionCreators = {
       const response = await fetch(url, options);
       if (response.ok) {
         oneById = await response.json();
-        console.log(oneById);
       }
     }
     dispatch({ type: receiveErrorByIdType, oneById })

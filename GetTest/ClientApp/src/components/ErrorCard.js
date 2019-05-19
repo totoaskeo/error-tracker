@@ -70,23 +70,60 @@ class ErrorCard extends Component {
     await this.setState({ mode: this.mode(), error: { ...this.state.error, ...this.props.error } });
   }
 
+  async handleStatusChange (st, event) {
+    event.preventDefault();
+    let statusId = 1;
+    switch (st) {
+      case 'open':
+        statusId = 2;
+        break;
+      case 'solve':
+        statusId = 3;
+        break;
+      case 'close':
+        statusId = 4;
+        break;
+      default:
+        break;
+    }
+    await this.setState({ error: { ...this.state.error, statusId } });
+    await this.props.updateError(this.state.error);
+    await this.props.requestErrorById(this.props.error.id);
+    await this.setState({ error: this.props.error });
+  }
+
   render () {
     const errNum = this.state.error.id || '';
     return (
       <Row>
         <Col xs="5">
           <div style={{ display: this.state.mode === 'edit' ? 'flex' : 'none' }}>
-            <Button className="mr-1" style={{ flex: '1 1'}}>Открыть</Button>
-            <Button className="mr-1" style={{ flex: '1 1'}}>Решена</Button>
-            <Button style={{ flex: '1 1'}}>Закрыть</Button>
+            {(this.state.error.statusId == 1 || this.state.error.statusId == 3) &&
+              <Button onClick={(event) => this.handleStatusChange('open', event)}
+                className="mr-1" style={{ flex: '1 1'}}
+              >Открыть</Button>
+            }
+            {this.state.error.statusId == 2 &&
+              <Button onClick={(event) => this.handleStatusChange('solve', event)}
+                className="mr-1" style={{ flex: '1 1'}}
+              >Решена</Button>
+            }
+            {this.state.error.statusId == 3 &&
+              <Button onClick={(event) => this.handleStatusChange('close', event)}
+                style={{ flex: '1 1'}}
+              >Закрыть</Button>
+            }
           </div>
+          {this.state.commentVisible &&
+            <Input className="mt-1" type="textarea" rows="2"></Input>
+          }
           <Card className="mt-3">
             <CardBody>
               <CardTitle>
                 <p>Ошибка {errNum}</p>
                 <Input value={this.state.error.shortDesc} onChange={this.handleChange} name="shortDesc"></Input>
               </CardTitle>
-              <Input type="textarea" rows="7" value={this.state.error.description}
+              <Input type="textarea" rows="5" value={this.state.error.description}
                 onChange={this.handleChange} name="description">
               </Input>
               <Row className="mt-3">
