@@ -6,10 +6,11 @@ import { Card, CardBody, CardTitle, FormGroup, Row, Col, Input, Button } from 'r
 import { actionCreators } from '../store/Errors';
 import { actionCreatorsCl } from '../store/Classifiers';
 import { format, parse } from 'date-fns';
-import ErrorHistory from './ErrorHistory'
+import ErrorHistory from './ErrorHistory';
+import CommentModal from './CommentModal';
 
 const mergedActionCreators = {...actionCreators, ...actionCreatorsCl};
-const initialState = { mode: '',
+const initialState = { mode: '', isCommentVisible: false,
   error: {
     shortDesc: '',
     description: '',
@@ -72,6 +73,7 @@ class ErrorCard extends Component {
 
   async handleStatusChange (st, event) {
     event.preventDefault();
+    await this.setState({ isCommentVisible: true });
     let statusId = 1;
     switch (st) {
       case 'open':
@@ -114,9 +116,7 @@ class ErrorCard extends Component {
               >Закрыть</Button>
             }
           </div>
-          {this.state.commentVisible &&
-            <Input className="mt-1" type="textarea" rows="2"></Input>
-          }
+          <CommentModal modal={this.state.isCommentVisible}></CommentModal>
           <Card className="mt-3">
             <CardBody>
               <CardTitle>
