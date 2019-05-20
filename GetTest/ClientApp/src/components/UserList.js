@@ -5,8 +5,8 @@ import { Table } from 'reactstrap';
 import { actionCreators } from '../store/Users';
 
 class UserList extends Component {
-  constructor () {
-    super();
+  constructor (props) {
+    super(props);
     this.state = {
       users: []
     }

@@ -26,8 +26,8 @@ const initialState = { mode: '', isCommentVisible: false,
 };
 
 class ErrorCard extends Component {
-  constructor () {
-    super();
+  constructor (props) {
+    super(props);
     autoBind(this);
     this.state = initialState;
   }
@@ -73,7 +73,7 @@ class ErrorCard extends Component {
 
   async handleStatusChange (st, event) {
     event.preventDefault();
-    await this.setState({ isCommentVisible: true });
+    this.setState({ isCommentVisible: true });
     let statusId = 1;
     switch (st) {
       case 'open':
@@ -88,14 +88,21 @@ class ErrorCard extends Component {
       default:
         break;
     }
-    await this.setState({ error: { ...this.state.error, statusId } });
+    this.statusId = statusId;
+  }
+
+  async handleCommentSave (comment, ok) {
+    await this.setState({ isCommentVisible: false });
+    console.log(comment);
+    if (!ok || !comment) return;
+    await this.setState({ error: { ...this.state.error, statusId: this.statusId } });
+    let newErrHist = this.state.error.errorHistory;
+    let maxId = Math.max(newErrHist.map(eh => eh.id));
+    newErrHist.push({ ...this.state.error.errorHistory[0], id: ++maxId, comment });
+    console.log(newErrHist);
     await this.props.updateError(this.state.error);
     await this.props.requestErrorById(this.props.error.id);
     await this.setState({ error: this.props.error });
-  }
-
-  handleCommentSave (comment) {
-    console.log(comment);
   }
 
   render () {
@@ -104,17 +111,17 @@ class ErrorCard extends Component {
       <Row>
         <Col xs="5">
           <div style={{ display: this.state.mode === 'edit' ? 'flex' : 'none' }}>
-            {(this.state.error.statusId == 1 || this.state.error.statusId == 3) &&
+            {(this.state.error.statusId === 1 || this.state.error.statusId === 3) &&
               <Button onClick={(event) => this.handleStatusChange('open', event)}
                 className="mr-1" style={{ flex: '1 1'}}
               >Открыть</Button>
             }
-            {this.state.error.statusId == 2 &&
+            {this.state.error.statusId === 2 &&
               <Button onClick={(event) => this.handleStatusChange('solve', event)}
                 className="mr-1" style={{ flex: '1 1'}}
               >Решена</Button>
             }
-            {this.state.error.statusId == 3 &&
+            {this.state.error.statusId === 3 &&
               <Button onClick={(event) => this.handleStatusChange('close', event)}
                 style={{ flex: '1 1'}}
               >Закрыть</Button>

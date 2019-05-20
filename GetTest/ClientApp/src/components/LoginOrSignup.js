@@ -6,8 +6,8 @@ import { Form, FormGroup, Input, Label, Row, Button } from 'reactstrap';
 import { actionCreators } from '../store/Users';
 
 class LoginOrSignup extends Component {
-  constructor () {
-    super();
+  constructor (props) {
+    super(props);
     autoBind(this);
     this.state = {
       login: '',

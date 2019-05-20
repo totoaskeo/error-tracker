@@ -16,23 +16,29 @@ class CommentModal extends React.Component {
     await this.setState({ comment: event.target.value});
   }
 
-  toggle() {
+  toggle(event, ok) {
     this.setState(prevState => ({
       modal: !prevState.modal
     }));
-    this.props.onCommentSave(this.state.comment);
+    this.props.onCommentSave(this.state.comment, ok);
+  }
+
+  componentDidUpdate (prevProps, prevState) {
+    if (this.props.modal !== this.state.modal) {
+      this.setState({ modal: this.props.modal })
+    }
   }
 
   render() {
     return (
       <div>
-        <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-          <ModalHeader toggle={this.toggle}>Комментарий</ModalHeader>
+        <Modal isOpen={this.state.modal} className={this.props.className}>
+          <ModalHeader>Комментарий</ModalHeader>
           <ModalBody>
             <Input type="textarea" value={this.state.comment} onChange={this.handleChange}></Input>
           </ModalBody>
           <ModalFooter>
-            <Button color="primary" onClick={this.toggle}>Сохранить</Button>{' '}
+            <Button color="primary" onClick={event => this.toggle(event, 'ok')}>Сохранить</Button>{' '}
             <Button color="secondary" onClick={this.toggle}>Отмена</Button>
           </ModalFooter>
         </Modal>

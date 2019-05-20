@@ -9,8 +9,8 @@ import Tablesort from 'tablesort';
 import ErrorListFilters from './ErrorListFilters'
 
 class ErrorList extends Component {
-  constructor () {
-    super();
+  constructor (props) {
+    super(props);
     this.state = {
       errors: []
     }

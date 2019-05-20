@@ -6,8 +6,8 @@ import { Form, FormGroup, Label, Input, Row, Col, Button } from 'reactstrap';
 import { actionCreators } from '../store/Users';
 
 class UserProfile extends Component {
-  constructor () {
-    super();
+  constructor (props) {
+    super(props);
     autoBind(this);
     this.state = {
       user: {
