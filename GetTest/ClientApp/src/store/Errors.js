@@ -17,7 +17,7 @@ const failureDeleteErrorType = 'FAILURE_DELETE_ERROR';
 const receiveErrorListType = 'RECEIVE_ERROR_LIST';
 const receiveErrorByIdType = 'RECEIVE_ERROR_BY_ID';
 
-const initialState = { list: [], isLoading: false, params: {}, oneById: { errorHistory: [] } };
+const initialState = { list: [], isLoading: false, params: {}, oneById: { errorHistory: [] }, msg: '' };
 
 export const actionCreators = {
   requestErrorList: (statusId = null, impactId = null, priorityId = null, dateFrom = null, dateTo = null) => async (dispatch, getState) => {
@@ -56,7 +56,6 @@ export const actionCreators = {
     dispatch({ type: receiveErrorByIdType, oneById })
   },
   createError: error => async (dispatch, getState) => {
-    console.log(error);
     dispatch({ type: requestCreateErrorType });
     const url = `api/Errors`;
     const options = {
@@ -66,11 +65,13 @@ export const actionCreators = {
     }
     const response = await fetch(url, options);
     const createdError = await response.json();
-    console.log(createdError);
+    let msg = '';
     if (response.ok) {
-      dispatch({ type: successCreateErrorType, oneById: createdError });
+      msg = 'Ошибка создана';
+      dispatch({ type: successCreateErrorType, oneById: createdError, msg });
     } else {
-      dispatch({ type: failureCreateErrorType });
+      msg = await response.text();
+      dispatch({ type: failureCreateErrorType, msg });
     }
   },
   updateError: error => async dispatch => {
@@ -81,13 +82,14 @@ export const actionCreators = {
       headers: { ...authHeader(), 'Content-Type': 'application/json' },
       body: JSON.stringify(error)
     }
-    console.log(error);
     const response = await fetch(url, options);
-    console.log(response);
+    let msg = '';
     if (response.ok) {
-      dispatch({ type: successUpdateErrorType });
+      msg = 'Данные об ошибке обновлены';
+      dispatch({ type: successUpdateErrorType, msg });
     } else {
-      dispatch({ type: failureUpdateErrorType });
+      msg = await response.text();
+      dispatch({ type: failureUpdateErrorType, msg });
     }
   }
 };
@@ -131,7 +133,15 @@ export const reducer = (state, action) => {
     return {
       ...state,
       oneById: action.oneById,
-      isLoading: false
+      isLoading: false,
+      msg: action.msg
+    }
+  }
+
+  if (action.type === successUpdateErrorType) {
+    return {
+      ...state,
+      msg: action.msg
     }
   }
 

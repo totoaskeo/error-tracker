@@ -32,9 +32,7 @@ export const actionCreators = {
     dispatch({ type: requestUsersType });
     const url = `api/Users`;
     const options = { headers: { ...authHeader() } };
-    console.log(options)
     const response = await fetch(url, options);
-    console.log(response);
     if (response.ok) {
       const userList = await response.json();
       console.log(userList);
@@ -50,6 +48,7 @@ export const actionCreators = {
       body: JSON.stringify(user)
     }
     const response = await fetch(url, options);
+    console.log(response)
     let msg = '';
     if (response.ok) {
       msg = 'Пользователь зарегистрирован';
@@ -69,13 +68,11 @@ export const actionCreators = {
     }
     const response = await fetch(url, options);
     const user = await response.json();
-    let msg = '';
     if (response.ok) {
       localStorage.setItem('user', JSON.stringify(user));
-      dispatch({ type: successUserLoginType, user, msg });
+      dispatch({ type: successUserLoginType, user });
     } else {
-      msg = await response.text()
-      dispatch({ type: failureUserLoginType, msg })
+      dispatch({ type: failureUserLoginType })
     }
   },
   logoutUser: () => async dispatch => {
@@ -90,7 +87,6 @@ export const actionCreators = {
       body: JSON.stringify(user)
     }
     const response = await fetch(url, options);
-    console.log(response);
     let msg = '';
     if (response.ok) {
       msg = 'Данные пользователя обновлены';
