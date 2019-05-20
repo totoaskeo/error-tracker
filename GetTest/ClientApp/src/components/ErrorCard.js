@@ -94,6 +94,10 @@ class ErrorCard extends Component {
     await this.setState({ error: this.props.error });
   }
 
+  handleCommentSave (comment) {
+    console.log(comment);
+  }
+
   render () {
     const errNum = this.state.error.id || '';
     return (
@@ -116,7 +120,7 @@ class ErrorCard extends Component {
               >Закрыть</Button>
             }
           </div>
-          <CommentModal modal={this.state.isCommentVisible}></CommentModal>
+          <CommentModal modal={this.state.isCommentVisible} onCommentSave={this.handleCommentSave}></CommentModal>
           <Card className="mt-3">
             <CardBody>
               <CardTitle>
