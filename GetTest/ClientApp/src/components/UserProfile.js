@@ -3,6 +3,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import autoBind from 'react-autobind';
 import { Form, FormGroup, Label, Input, Row, Col, Button } from 'reactstrap';
+
 import { actionCreators } from '../store/Users';
 
 class UserProfile extends Component {

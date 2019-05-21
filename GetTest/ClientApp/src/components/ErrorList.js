@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 import { Table } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import format from 'date-fns/format';
-import { actionCreators } from '../store/Errors';
 import Tablesort from 'tablesort';
-import ErrorListFilters from './ErrorListFilters'
+
+import { actionCreators } from '../store/Errors';
 
 class ErrorList extends Component {
   constructor (props) {

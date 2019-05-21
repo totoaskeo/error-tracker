@@ -1,7 +1,9 @@
 import React from 'react';
 import autoBind from 'react-autobind';
 import { connect } from 'react-redux';
-import { Collapse, Container, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink, DropdownItem, DropdownMenu, Dropdown, DropdownToggle } from 'reactstrap';
+import { Collapse, Container, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink,
+  DropdownItem, DropdownMenu, Dropdown, DropdownToggle
+} from 'reactstrap';
 import { Link, withRouter } from 'react-router-dom';
 import { actionCreators } from '../store/Users';
 import './NavMenu.css';
@@ -30,7 +32,6 @@ class NavMenu extends React.Component {
   }
 
   logout () {
-    localStorage.removeItem('user');
     this.props.logoutUser();
     this.props.history.push('/');
   }

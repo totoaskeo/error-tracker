@@ -4,15 +4,12 @@ const requestErrorListType = 'REQUEST_ERROR_LIST';
 const requestErrorByIdType = 'REQUEST_ERROR_BY_ID';
 const requestCreateErrorType = 'REQUEST_CREATE_ERROR';
 const requestUpdateErrorType = 'REQUEST_UPDATE_ERROR';
-const requestDeleteErrorType = 'REQUEST_DELETE_ERROR';
 
 const successCreateErrorType = 'SUCCESS_CREATE_ERROR';
 const successUpdateErrorType = 'SUCCESS_UPDATE_ERROR';
-const successDeleteErrorType = 'SUCCESS_DELETE_ERROR';
 
 const failureCreateErrorType = 'FAILURE_CREATE_ERROR';
 const failureUpdateErrorType = 'FAILURE_UPDATE_ERROR';
-const failureDeleteErrorType = 'FAILURE_DELETE_ERROR';
 
 const receiveErrorListType = 'RECEIVE_ERROR_LIST';
 const receiveErrorByIdType = 'RECEIVE_ERROR_BY_ID';
@@ -20,14 +17,7 @@ const receiveErrorByIdType = 'RECEIVE_ERROR_BY_ID';
 const initialState = { list: [], isLoading: false, params: {}, oneById: { errorHistory: [] }, msg: '' };
 
 export const actionCreators = {
-  requestErrorList: (statusId = null, impactId = null, priorityId = null, dateFrom = null, dateTo = null) => async (dispatch, getState) => {
-    const params = {
-      statusId, impactId, priorityId, dateFrom, dateTo
-    }
-    // if (Object.keys(params).every(key => params[key] === getState().errors.params[key])) {
-    //   return; // duplicate request
-    // }
-    
+  requestErrorList: () => async (dispatch, getState) => {
     dispatch({ type: requestErrorListType });
     const url = `api/Errors`;
     const options = {
@@ -36,13 +26,12 @@ export const actionCreators = {
     const response = await fetch(url, options);
     if (response.ok) {
       const errorList = await response.json();
-      console.log(errorList)
-      dispatch({ type: receiveErrorListType, errorList, params });
+      dispatch({ type: receiveErrorListType, errorList });
     }
   },
   requestErrorById: id => async (dispatch, getState) => {
     dispatch({ type: requestErrorByIdType })
-    let oneById
+    let oneById;
     if (id) {
       const url = `api/Errors/${id}`;
       const options = {
@@ -100,7 +89,6 @@ export const reducer = (state, action) => {
   if (action.type === requestErrorListType) {
     return {
       ...state,
-      params: action.params,
       isLoading: true
     };
   }
@@ -116,7 +104,6 @@ export const reducer = (state, action) => {
     return {
       ...state,
       list: action.errorList,
-      params: action.params,
       isLoading: false
     };
   }

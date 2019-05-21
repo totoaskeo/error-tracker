@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import autoBind from 'react-autobind';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input } from 'reactstrap';
 
@@ -25,7 +25,7 @@ class CommentModal extends React.Component {
 
   componentDidUpdate (prevProps, prevState) {
     if (this.props.modal !== this.state.modal) {
-      this.setState({ modal: this.props.modal })
+      this.setState({ modal: this.props.modal });
     }
   }
 

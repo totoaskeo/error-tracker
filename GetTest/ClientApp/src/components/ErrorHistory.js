@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Table} from 'reactstrap';
 import format from 'date-fns/format';
 import Tablesort from 'tablesort';
+
 import { actionCreators } from '../store/Errors';
 
 class ErrorHistory extends Component {

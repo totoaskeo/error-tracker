@@ -35,7 +35,6 @@ export const actionCreators = {
     const response = await fetch(url, options);
     if (response.ok) {
       const userList = await response.json();
-      console.log(userList);
       dispatch({ type: receiveUsersType, userList});
     }
   },
@@ -76,6 +75,7 @@ export const actionCreators = {
     }
   },
   logoutUser: () => async dispatch => {
+    localStorage.removeItem('user');
     dispatch({ type: logoutUserType });
   },
   updateUser: user => async (dispatch, getState) => {

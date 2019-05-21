@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import autoBind from 'react-autobind';
+import { format, parse } from 'date-fns';
 import { Card, CardBody, CardTitle, FormGroup, Row, Col, Input, Button } from 'reactstrap';
+
 import { actionCreators } from '../store/Errors';
 import { actionCreatorsCl } from '../store/Classifiers';
-import { format, parse } from 'date-fns';
 import ErrorHistory from './ErrorHistory';
 import CommentModal from './CommentModal';
 
@@ -21,7 +22,7 @@ const initialState = { mode: '', isCommentVisible: false,
     status: {},
     userId: localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')).id : '',
     errorHistory: [],
-    dateCreated: '' // later
+    dateCreated: ''
   }
 };
 
@@ -59,10 +60,10 @@ class ErrorCard extends Component {
 
   async handleSaveClick (event) {
     event.preventDefault();
-    if (this.state.mode === 'edit') { // update
+    if (this.state.mode === 'edit') {
       await this.props.updateError(this.state.error);
       await this.props.requestErrorById(this.props.error.id);
-    } else { // create
+    } else {
       const dateCreated = parse(new Date());
       await this.setState({ error: { ...this.state.error, dateCreated } });
       await this.props.createError(this.state.error);
@@ -110,23 +111,7 @@ class ErrorCard extends Component {
     return (
       <Row>
         <Col xs="5">
-          <div style={{ display: this.state.mode === 'edit' ? 'flex' : 'none' }}>
-            {(this.state.error.statusId === 1 || this.state.error.statusId === 3) &&
-              <Button onClick={(event) => this.handleStatusChange('open', event)}
-                className="mr-1" style={{ flex: '1 1'}}
-              >Открыть</Button>
-            }
-            {this.state.error.statusId === 2 &&
-              <Button onClick={(event) => this.handleStatusChange('solve', event)}
-                className="mr-1" style={{ flex: '1 1'}}
-              >Решена</Button>
-            }
-            {this.state.error.statusId === 3 &&
-              <Button onClick={(event) => this.handleStatusChange('close', event)}
-                style={{ flex: '1 1'}}
-              >Закрыть</Button>
-            }
-          </div>
+          {this.renderButtons()}
           <CommentModal modal={this.state.isCommentVisible} onCommentSave={this.handleCommentSave}></CommentModal>
           <Card className="mt-3">
             <CardBody>
@@ -173,6 +158,28 @@ class ErrorCard extends Component {
           <ErrorHistory errorHistory={this.state.error.errorHistory}></ErrorHistory>
         </Col>
       </Row>
+    )
+  }
+
+  renderButtons () {
+    return (
+      <div style={{ display: this.state.mode === 'edit' ? 'flex' : 'none' }}>
+        {(this.state.error.statusId === 1 || this.state.error.statusId === 3) &&
+          <Button onClick={(event) => this.handleStatusChange('open', event)}
+            className="mr-1" style={{ flex: '1 1'}}
+          >Открыть</Button>
+        }
+        {this.state.error.statusId === 2 &&
+          <Button onClick={(event) => this.handleStatusChange('solve', event)}
+            className="mr-1" style={{ flex: '1 1'}}
+          >Решена</Button>
+        }
+        {this.state.error.statusId === 3 &&
+          <Button onClick={(event) => this.handleStatusChange('close', event)}
+            style={{ flex: '1 1'}}
+          >Закрыть</Button>
+        }
+      </div>
     )
   }
 }

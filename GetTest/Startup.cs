@@ -31,6 +31,7 @@ namespace ErrorTrackerApp {
             services.AddMvc()
                 .AddJsonOptions(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore)
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
             services.AddCors();
             services.AddAutoMapper();
 

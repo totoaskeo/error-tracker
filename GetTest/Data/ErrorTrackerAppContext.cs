@@ -14,8 +14,8 @@ namespace ErrorTrackerApp.Models
         {
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    => optionsBuilder
-        .UseLazyLoadingProxies().EnableDetailedErrors();
+        => optionsBuilder
+            .UseLazyLoadingProxies().EnableDetailedErrors();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
             modelBuilder.Entity<Error>().HasMany(e => e.ErrorHistory);

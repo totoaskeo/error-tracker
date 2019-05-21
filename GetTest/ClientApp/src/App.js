@@ -1,6 +1,5 @@
 import React from 'react';
 import { Route } from 'react-router';
-import { connect } from 'react-redux';
 import Layout from './components/Layout';
 import Home from './components/Home';
 import LoginOrSignup from './components/LoginOrSignup';
@@ -20,4 +19,3 @@ export default () => (
   </Layout>
 );
 
-//export default connect(state => state.users.user, null)(App)
