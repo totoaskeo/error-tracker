@@ -40,12 +40,12 @@ namespace ErrorTrackerApp {
                 configuration.RootPath = "ClientApp/build";
             });
 
-            //services.AddDbContext<ErrorTrackerAppContext>(options =>
-            //    options.UseSqlServer(Configuration.GetConnectionString("ErrorTrackerAppContext")));
-
             services.AddDbContext<ErrorTrackerAppContext>(options =>
-                options.UseInMemoryDatabase("ErrorTrackerAppDB")
-            );
+                options.UseSqlServer(Configuration.GetConnectionString("ErrorTrackerAppContext")));
+
+            //services.AddDbContext<ErrorTrackerAppContext>(options =>
+            //    options.UseInMemoryDatabase("ErrorTrackerAppDB")
+            //);
 
             // configure strongly typed settings objects
             var appSettingsSection = Configuration.GetSection("AppSettings");
