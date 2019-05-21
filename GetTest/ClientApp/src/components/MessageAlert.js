@@ -13,6 +13,12 @@ class AlertExample extends React.Component {
     };
   }
 
+  componentDidUpdate (prevProps, prevState) {
+    if (prevProps.messageError !== this.props.messageError || prevProps.messageUser !== this.props.messageUser) {
+      this.setState({ message: this.props.messageUser || this.props.messageError });
+    }
+  }
+
   async onDismiss() {
     this.setState({ message: '' });
   }
